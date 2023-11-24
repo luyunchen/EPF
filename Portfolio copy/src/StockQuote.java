@@ -10,12 +10,16 @@
  */
 
 
-public class StockQuote {
+public class StockQuote implements securityReturn{
     private String symbol;
     private Double latestPrice;
     private String fullName; 
     private Double beta;     
-
+    
+    private static Double expectedMarketReturn;
+    private static Double riskFreeRate;
+    
+    
     // Getters and setters
     public String getSymbol() {
         return symbol;
@@ -48,4 +52,14 @@ public class StockQuote {
     public void setBeta(Double beta) {
         this.beta = beta;
     }
+    
+    
+    @Override
+    public double calculateExpectedSecurityReturn(){
+        return ((riskFreeRate+beta)*(expectedMarketReturn-riskFreeRate));
+    }
+    public static void main(String[] args) {
+        //Try : Creating a new stockQuote and then returning its securityReturn as a double
+    }
 }
+

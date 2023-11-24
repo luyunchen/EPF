@@ -12,8 +12,12 @@ import javafx.fxml.Initializable;
  *
  * @author sujansiva
  */
-public class FXMLController implements Initializable {
 
+public class FXMLController implements Initializable {
+    private static Double totalEquity; //Everytime that the investor profile is updated. This should be set to the investor's equity via setOnAction for UpdateInvestorProfileButton
+    public static Double getTotalEquity(){
+        return totalEquity;
+    }
     /**
      * Initializes the controller class.
      */
