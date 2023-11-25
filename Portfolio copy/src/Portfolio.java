@@ -16,11 +16,13 @@ public class Portfolio { //Multiple portfolio objects will be used. Each portfol
     private double portfolioReturn;
     private double portfolioRisk;
     
-    public Portfolio(List<StockQuote> stocks, List<Double> weights){
+    public Portfolio(){} //Default constructor for Portfolio class
+    
+    public Portfolio(List<StockQuote> stocks, List<Double> weights){ //Constructor for Portfolio class. 
         this.stocks = stocks;
         this.weights = weights;
         
-        this.portfolioReturn = calculatePortfolioReturn();
+        this.portfolioReturn = calculatePortfolioReturn(); //With the stocks and weights, we can call methods that will give us both return and risk.
         this.portfolioRisk = calculatePortfolioRisk();
     }
     
