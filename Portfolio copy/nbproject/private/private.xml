@@ -3,6 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/C:/Users/musta/Documents/Vanier/2023%20Fall%20Semester/Comp-Sci/Final%20Project/EPF/Portfolio%20copy/src/API.java</file>
             <file>file:/C:/Users/musta/Documents/Vanier/2023%20Fall%20Semester/Comp-Sci/Final%20Project/EPF/Portfolio%20copy/src/Investor.java</file>
             <file>file:/C:/Users/musta/Documents/Vanier/2023%20Fall%20Semester/Comp-Sci/Final%20Project/EPF/Portfolio%20copy/src/StockQuote.java</file>
@@ -11,6 +12,11 @@
             <file>file:/C:/Users/musta/Documents/Vanier/2023%20Fall%20Semester/Comp-Sci/Final%20Project/EPF/Portfolio%20copy/src/EfficientFrontierGenerator.java</file>
             <file>file:/C:/Users/musta/Documents/Vanier/2023%20Fall%20Semester/Comp-Sci/Final%20Project/EPF/Portfolio%20copy/src/Portfolio.java</file>
             <file>file:/C:/Users/musta/Documents/Vanier/2023%20Fall%20Semester/Comp-Sci/Final%20Project/EPF/Portfolio%20copy/src/securityReturn.java</file>
+=======
+            <file>file:/Users/sujansiva/NetBeansProjects/Portfolio/src/Portfolio_main.java</file>
+            <file>file:/Users/sujansiva/NetBeansProjects/Portfolio/src/FXMLController.java</file>
+            <file>file:/Users/sujansiva/NetBeansProjects/Portfolio/src/FXML.fxml</file>
+>>>>>>> 02a151fe32c84b8c72b604b2e31d6ef4b613017d
         </group>
     </open-files>
 </project-private>
