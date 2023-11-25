@@ -10,11 +10,19 @@ import java.util.List;
  *
  * @author musta
  */
-public class Portfolio {
+public class Portfolio { //Multiple portfolio objects will be used. Each portfolio object will contain these relevant information: The 3 stocks in the portfolio, the weight of each, the portfolio return and the portfolio risk
     private List<StockQuote> stocks;
     private List<Double> weights;
     private double portfolioReturn;
-    private double calculatePortfolioRisk;
+    private double portfolioRisk;
+    
+    public Portfolio(List<StockQuote> stocks, List<Double> weights){
+        this.stocks = stocks;
+        this.weights = weights;
+        
+        this.portfolioReturn = calculatePortfolioReturn();
+        this.portfolioRisk = calculatePortfolioRisk();
+    }
     
     //Getters for all instant variables
     public List<StockQuote> getStocks() {
@@ -29,8 +37,8 @@ public class Portfolio {
         return portfolioReturn;
     }
 
-    public double getCalculatePortfolioRisk() {
-        return calculatePortfolioRisk;
+    public double getPortfolioRisk() {
+        return portfolioRisk;
     }
     //Setters for all instant variables
     public void setStocks(List<StockQuote> stocks) {
@@ -46,12 +54,12 @@ public class Portfolio {
     }
 
     public void setCalculatePortfolioRisk(double calculatePortfolioRisk) {
-        this.calculatePortfolioRisk = calculatePortfolioRisk;
+        this.portfolioRisk = calculatePortfolioRisk;
     }
     
     
 
-    public double calculatePortfolioReturn() {
+    public double calculatePortfolioReturn() { //Obtaining total return by adding weighted returns
         double portfolioReturn = 0.0;
         for (int i = 0; i < stocks.size(); i++) {
             portfolioReturn += weights.get(i) * stocks.get(i).calculateExpectedSecurityReturn();
@@ -61,15 +69,13 @@ public class Portfolio {
 
     public double calculatePortfolioRisk() {
         
-        // For simplicity, let's assume a linear relationship between the cofactors of risk
-        double portfolioRisk = 0.0;
+        // For simplicity, let's assume a linear relationship between the cofactors of risk. Usually, a covariance matrix is used.
+        double portfolioRisk = 0.0; 
         for (int i = 0; i < stocks.size(); i++) {
-            portfolioRisk += weights.get(i) * stocks.get(i).getBeta();
+            portfolioRisk += weights.get(i) * stocks.get(i).getBeta(); 
         }
-        return portfolioRisk;
+        return portfolioRisk;   //For each portfolio, we can obtain the total covariance of the portfolio with the market by adding the beta weighted.
     }
     
-    public String toString(){
-        returnFXMLController.getTotalEquity()
-    }
+    
 }

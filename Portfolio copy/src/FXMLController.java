@@ -32,7 +32,37 @@ import javafx.scene.layout.Pane;
  * @author sujansiva
  */
 public class FXMLController implements Initializable {
+    
+    public static List<double[]> getWeightsList(){ //These are some random weights of the stocks for each portfolio. There's gonna be 20 portfolio, meaning 20 data points.
+        List<double[]> weights = new ArrayList<>();
+        
+        
+        weights.add(new double[]{0.25, 0.3, 0.35});
+        weights.add(new double[]{0.1, 0.5, 0.4});
+        weights.add(new double[]{0.2, 0.1, 0.6});
+        weights.add(new double[]{0.3, 0.2, 0.4});
+        weights.add(new double[]{0.15, 0.4, 0.45});
+        weights.add(new double[]{0.4, 0.2, 0.35});
+        weights.add(new double[]{0.3, 0.4, 0.2});
+        weights.add(new double[]{0.2, 0.3, 0.4});
+        weights.add(new double[]{0.1, 0.3, 0.5});
+        weights.add(new double[]{0.35, 0.25, 0.4});
+        weights.add(new double[]{0.2, 0.25, 0.55});
+        weights.add(new double[]{0.3, 0.15, 0.55});
+        weights.add(new double[]{0.25, 0.35, 0.4});
+        weights.add(new double[]{0.15, 0.3, 0.55});
+        weights.add(new double[]{0.4, 0.1, 0.5});
+        weights.add(new double[]{0.25, 0.35, 0.4});
+        weights.add(new double[]{0.3, 0.1, 0.6});
+        weights.add(new double[]{0.1, 0.4, 0.5});
+        weights.add(new double[]{0.2, 0.5, 0.3});
+        weights.add(new double[]{0.3, 0.3, 0.35});
 
+        return weights;
+    }
+    
+    public static List<StockQuote> stocksSelected; //Empty list of StockQuotes. When user changes the first security, call setOnAction -> stocksSelected.set(0,*stockquote object*) and so on
+    
     @FXML
     private AnchorPane rootPane;
 

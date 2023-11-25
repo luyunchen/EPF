@@ -22,7 +22,7 @@ public class Portfolio_main extends Application {
     
     @Override
     public void start(Stage primaryStage) throws IOException {
-   Parent root = FXMLLoader.load(getClass().getResource("FXML.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("FXML.fxml"));
         Scene scene= new Scene(root);
         
         primaryStage.setScene(scene);
