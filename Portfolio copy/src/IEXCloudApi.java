@@ -23,7 +23,7 @@ public class IEXCloudApi {
 
     public String getCurrentStockInfo(String symbol) {
     String quoteEndpoint = BASE_URL + symbol + "/quote?token=" + API_TOKEN;
-    String statsEndpoint = BASE_URL + symbol + "/stats?token=" + API_TOKEN;
+    String statsEndpoint = BASE_URL + symbol + "/advanced-stats?token=" + API_TOKEN;
 
     try {
         HttpClient httpClient = HttpClient.newHttpClient();
