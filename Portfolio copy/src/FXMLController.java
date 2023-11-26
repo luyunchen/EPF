@@ -7,19 +7,23 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
-
+import javafx.fxml.FXML;
 import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.XYChart;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.InputMethodEvent;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 
 /**
  * FXML Controller class
@@ -27,7 +31,7 @@ import javafx.scene.layout.AnchorPane;
  * @author sujansiva
  */
 public class FXMLController implements Initializable {
-    static String userRiskTolerance; //Each time the updateInvestorProfile is clicked, this should update to it.
+    static String userRiskToleranc  ; //Each time the updateInvestorProfile is clicked, this should update to it.
     static double totalEquity; //
     public static List<Integer> calculateStockQuantities(){
          List<Integer> stockQuantities = new ArrayList<>();
@@ -43,7 +47,7 @@ public class FXMLController implements Initializable {
         return stockQuantities;   
     }
     public static Portfolio bestFitPortfolio(List<Portfolio> portfolios){
-        switch(userRiskTolerance){
+        switch(userRiskToleranc){
         
             case "conservative": {
                 
@@ -92,24 +96,25 @@ public class FXMLController implements Initializable {
     
     public static List<StockQuote> stocksSelected; //Empty list of StockQuotes. When user changes the first security, call setOnAction -> stocksSelected.set(0,*stockquote object*) and so on
     public static List<Portfolio> listOfPortfolios;
+    @FXML
+    private TextField sec1;
+    @FXML
+    private ChoiceBox<Double> ListViewRisk;
     
     //Use following code for creating portfolios when 1. 'create graph' button is pressed OR 2. When both of these conditions are met : 2.1 A security slot has been changed 2.2 All three securities are selected. 
     // In this case, call setOnAction for security selection and then if statement to see if all three securities slots are filled.
-     @FXML
-    void sec1OnAction(ActionEvent event) {
+     void sec1OnAction(ActionEvent event) {
         StockQuote stockQuote = new StockQuote();
         stocksSelected.set(0, stockQuote);
         checkAndCreatePortfolios();
     }
 
-    @FXML
     void sec2OnAction(ActionEvent event) {
         StockQuote stockQuote = new StockQuote();
         stocksSelected.set(1, stockQuote);
         checkAndCreatePortfolios();
     }
 
-    @FXML
     void sec3OnAction(ActionEvent event) {
         StockQuote stockQuote = new StockQuote();
         stocksSelected.set(2, stockQuote);
@@ -141,8 +146,8 @@ public class FXMLController implements Initializable {
     }
 
     */
- @FXML
-    void generateGraphOnAction(InputMethodEvent event) {
+    @FXML
+ void generateGraphOnAction(ActionEvent event) {
           createPortfolios();
 
         // Clear existing data in the chart
@@ -157,13 +162,15 @@ public class FXMLController implements Initializable {
             // Add data points to the series
             XYChart.Series series = new XYChart.Series<>();
             series.getData().add(new XYChart.Data<>(risk, returnVal));
+            
 
             // Add the series to the chart
             Graph.getData().add(series);
+           
         }
     }
     @FXML
-    private AreaChart<?, ?> Graph;
+    private AreaChart<Double, Double> Graph;
     
     @FXML
     private AnchorPane rootPane;
@@ -185,7 +192,6 @@ public class FXMLController implements Initializable {
     @FXML
     private Label LabelRisk;
 
-   
 
     @FXML
     private Label LabelAge;
@@ -226,20 +232,36 @@ public class FXMLController implements Initializable {
     void ListviewPop(MouseEvent event) {
     ListView.setOpacity(1.0);
     }
-      @FXML
-    private Button Generate;
 
-    @FXML
     void GenerateOnAction(ActionEvent event) {
 
     }
+    @FXML
+    private Label St1;
 
+    @FXML
+    private TextField Txt1;
 
+    @FXML
+    private Label St2;
 
+    @FXML
+    private TextField Txt2;
+
+    @FXML
+    private Label St3;
+
+    @FXML
+    private TextField Txt3;
+
+    @FXML
+    private HBox Stockideal;
+
+    @FXML
+    private Button generateGraph;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-         //Add random diversifications to the List of weights
-        weights.add(List.of(0.25, 0.3, 0.35));
+        weights.add(List.of(0.25, 0.3, 0.35)); //Add random diversifications to the List of weights
         weights.add(List.of(0.1, 0.5, 0.4));
         weights.add(List.of(0.2, 0.1, 0.6));
         weights.add(List.of(0.3, 0.2, 0.4));
@@ -261,4 +283,6 @@ public class FXMLController implements Initializable {
         weights.add(List.of(0.3, 0.3, 0.35));
 
 }
+
 }
+
