@@ -10,7 +10,7 @@
 public class Investor {
     private String name;
     private double equity;
-    private String riskTolerance;
+    private String riskTolerance; //riskTolerance can be conservative or aggressive
     
     public Investor(){};
     

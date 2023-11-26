@@ -4,27 +4,19 @@
  */
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.input.KeyEvent;
 
 import javafx.fxml.FXML;
-import javafx.scene.chart.AreaChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 
 /**
  * FXML Controller class
@@ -32,6 +24,43 @@ import javafx.scene.layout.Pane;
  * @author sujansiva
  */
 public class FXMLController implements Initializable {
+    static String userRiskTolerance; //Each time the updateInvestorProfile is clicked, this should update to it.
+    
+    public Portfolio bestFitPortfolio(List<Portfolio> portfolios){
+        switch(userRiskTolerance){
+            case "conservative": {
+                
+                Portfolio smallestRiskPortfolio = portfolios.get(0); // Initialize with the first portfolio
+
+                // Iterate through the rest of the portfolios
+                for (int i = 1; i < portfolios.size(); i++) {
+                    Portfolio currentPortfolio = portfolios.get(i);
+
+                    // Compare the risk of the current portfolio with the smallestRiskPortfolio
+                    if (currentPortfolio.getPortfolioRisk() < smallestRiskPortfolio.getPortfolioRisk()) {
+                        smallestRiskPortfolio = currentPortfolio; // Update if the current portfolio has smaller risk
+                    }
+                }
+                return smallestRiskPortfolio;
+            }
+            case "aggressive": {
+                Portfolio highestReturnsPortfolio = portfolios.get(0);
+                for (int i = 1; i < portfolios.size(); i++) {
+                    Portfolio currentPortfolio = portfolios.get(i);
+
+                    // Compare returns of the current portfolio with the highestReturnsPortfolio
+                    if (currentPortfolio.getPortfolioReturn() > highestReturnsPortfolio.getPortfolioReturn()) {
+                        highestReturnsPortfolio = currentPortfolio; // Update if the current portfolio has higher returns
+                    }
+                }
+
+                return highestReturnsPortfolio;
+            }
+            default:{
+                return new Portfolio();
+            }
+        }
+    }
     
     public static List<double[]> weights; //These are some random weights of the stocks for each portfolio. There's gonna be 20 portfolio, meaning 20 data points.
         
