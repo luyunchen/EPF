@@ -4,7 +4,7 @@
  */
 
 import java.net.URL;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
@@ -25,9 +25,23 @@ import javafx.scene.layout.AnchorPane;
  */
 public class FXMLController implements Initializable {
     static String userRiskTolerance; //Each time the updateInvestorProfile is clicked, this should update to it.
-    
-    public Portfolio bestFitPortfolio(List<Portfolio> portfolios){
+    static double totalEquity; //
+    public static List<Integer> calculateStockQuantities(){
+         List<Integer> stockQuantities = new ArrayList<>();
+
+        // Calculate the number of stocks for each stock based on the weights
+        for (int i = 0; i < bestFitPortfolio(listOfPortfolios).getStocks().size(); i++) {
+            double stockWeight = bestFitPortfolio(listOfPortfolios).getWeights().get(i);
+            double stockValue = bestFitPortfolio(listOfPortfolios).getStocks().get(i).getLatestPrice();
+            int stockQuantity = (int) ((totalEquity*stockWeight)/stockValue);
+            stockQuantities.add(stockQuantity);
+        }
+
+        return stockQuantities;   
+    }
+    public static Portfolio bestFitPortfolio(List<Portfolio> portfolios){
         switch(userRiskTolerance){
+        
             case "conservative": {
                 
                 Portfolio smallestRiskPortfolio = portfolios.get(0); // Initialize with the first portfolio
@@ -61,6 +75,8 @@ public class FXMLController implements Initializable {
             }
         }
     }
+    
+    
     
     public static List<double[]> weights; //These are some random weights of the stocks for each portfolio. There's gonna be 20 portfolio, meaning 20 data points.
         
