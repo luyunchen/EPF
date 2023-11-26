@@ -9,12 +9,15 @@ import java.util.List;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
 
-import javafx.fxml.FXML;
+import javafx.scene.chart.AreaChart;
+import javafx.scene.chart.XYChart;
+
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.InputMethodEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
@@ -92,7 +95,44 @@ public class FXMLController implements Initializable {
     
     //Use following code for creating portfolios when 1. 'create graph' button is pressed OR 2. When both of these conditions are met : 2.1 A security slot has been changed 2.2 All three securities are selected. 
     // In this case, call setOnAction for security selection and then if statement to see if all three securities slots are filled.
-    
+     @FXML
+    void sec1OnAction(ActionEvent event) {
+        StockQuote stockQuote = new StockQuote();
+        stocksSelected.set(0, stockQuote);
+        checkAndCreatePortfolios();
+    }
+
+    @FXML
+    void sec2OnAction(ActionEvent event) {
+        StockQuote stockQuote = new StockQuote();
+        stocksSelected.set(1, stockQuote);
+        checkAndCreatePortfolios();
+    }
+
+    @FXML
+    void sec3OnAction(ActionEvent event) {
+        StockQuote stockQuote = new StockQuote();
+        stocksSelected.set(2, stockQuote);
+        checkAndCreatePortfolios();
+    }
+
+    private void checkAndCreatePortfolios() {
+        // Check if all three securities are selected
+        if (areAllSecuritiesSelected()) {
+            createPortfolios();
+        }
+    }
+
+    private boolean areAllSecuritiesSelected() {
+        return stocksSelected.size() == 3 && stocksSelected.get(0) != null && stocksSelected.get(1) != null && stocksSelected.get(2) != null;
+    }
+
+    private void createPortfolios() {
+        listOfPortfolios.clear(); // Clear everything that's in the list of portfolio options as we're creating new options.
+        for (int i = 0; i < 20; i++) {
+            listOfPortfolios.add(new Portfolio(new ArrayList<>(stocksSelected), weights.get(i)));
+        }
+    }
     
     /*
     for(int i = 0; i<20; i++){
@@ -101,12 +141,34 @@ public class FXMLController implements Initializable {
     }
 
     */
+ @FXML
+    void generateGraphOnAction(InputMethodEvent event) {
+          createPortfolios();
+
+        // Clear existing data in the chart
+        Graph.getData().clear();
+
+        // Add series to the chart using portfolio data
+        for (int i = 0; i < listOfPortfolios.size(); i++) {
+            Portfolio portfolio = listOfPortfolios.get(i);
+            double risk = portfolio.getPortfolioRisk();
+            double returnVal = portfolio.getPortfolioReturn();
+
+            // Add data points to the series
+            XYChart.Series series = new XYChart.Series<>();
+            series.getData().add(new XYChart.Data<>(risk, returnVal));
+
+            // Add the series to the chart
+            Graph.getData().add(series);
+        }
+    }
+    @FXML
+    private AreaChart<?, ?> Graph;
     
     @FXML
     private AnchorPane rootPane;
 
-    @FXML
-    private TextField sec1;
+    
 
     @FXML
     private TextField sec2;
@@ -164,6 +226,14 @@ public class FXMLController implements Initializable {
     void ListviewPop(MouseEvent event) {
     ListView.setOpacity(1.0);
     }
+      @FXML
+    private Button Generate;
+
+    @FXML
+    void GenerateOnAction(ActionEvent event) {
+
+    }
+
 
 
     @Override
