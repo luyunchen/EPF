@@ -7,6 +7,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.fxml.FXML;
@@ -20,10 +22,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.InputMethodEvent;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.shape.QuadCurve;
 
 /**
  * FXML Controller class
@@ -94,50 +98,114 @@ public class FXMLController implements Initializable {
         
     
     
-    public static List<StockQuote> stocksSelected; //Empty list of StockQuotes. When user changes the first security, call setOnAction -> stocksSelected.set(0,*stockquote object*) and so on
+     public static List<StockQuote> stocksSelected = new ArrayList<>(); //Empty list of StockQuotes. When user changes the first security, call setOnAction -> stocksSelected.set(0,*stockquote object*) and so on
     public static List<Portfolio> listOfPortfolios;
     @FXML
     private TextField sec1;
-    @FXML
-    private ChoiceBox<Double> ListViewRisk;
+    
     
     //Use following code for creating portfolios when 1. 'create graph' button is pressed OR 2. When both of these conditions are met : 2.1 A security slot has been changed 2.2 All three securities are selected. 
     // In this case, call setOnAction for security selection and then if statement to see if all three securities slots are filled.
-     void sec1OnAction(ActionEvent event) {
-        StockQuote stockQuote = new StockQuote();
-        stocksSelected.set(0, stockQuote);
-        checkAndCreatePortfolios();
+
+  @FXML
+    void SymbolName(KeyEvent event) {
+       
+if (event.getCode() == KeyCode.ENTER) {
+            String stockSymbol = BarSearch.getText().toUpperCase();
+            
+            if (!stockSymbol.isEmpty()) {
+                StockQuote stockQuote = getStockInfoBySymbol(stockSymbol);
+                
+       if (sec1.getText().isEmpty()) {
+    stocksSelected.add(0, stockQuote);
+    sec1.setText(stockQuote.getSymbol());
+    St1.setText(stockQuote.getSymbol());
+   
+} else if (sec2.getText().isEmpty() && !stockSymbol.equals(sec1.getText())) {
+    stocksSelected.add(1, stockQuote);
+    sec2.setText(stockQuote.getSymbol());
+    St2.setText(stockQuote.getSymbol());
+    
+} else if (sec3.getText().isEmpty() && !stockSymbol.equals(sec1.getText()) && !stockSymbol.equals(sec2.getText())) {
+    stocksSelected.add(2, stockQuote);
+    sec3.setText(stockQuote.getSymbol());
+    St3.setText(stockQuote.getSymbol());
+   
+    
+}
+  // Display the stock information
+            if (stockQuote != null) {
+                System.out.println("Symbol: " + stockQuote.getSymbol());
+                System.out.println("Latest Price: " + stockQuote.getLatestPrice());
+                System.out.println("Company Name: " + stockQuote.getFullName());
+                System.out.println("Beta: " + stockQuote.getBeta());
+            } else {
+                System.out.println("Failed to parse stock information.");
+            }
+        } else {
+            System.out.println("Failed to fetch stock information.");
+        }
+
+                
+           
+        }
+                // Check and create portfolios
+                checkAndCreatePortfolios();
+    }
+    
+ private boolean areAllSecuritiesSelected() {
+        return stocksSelected.size() == 3 && stocksSelected.get(0) != null && stocksSelected.get(1) != null && stocksSelected.get(2) != null;
     }
 
-    void sec2OnAction(ActionEvent event) {
-        StockQuote stockQuote = new StockQuote();
-        stocksSelected.set(1, stockQuote);
-        checkAndCreatePortfolios();
+    private void createPortfolios() {
+       // Clear everything that's in the list of portfolio options as we're creating new options.
+        for (int i = 0; i < 20; i++) {
+            listOfPortfolios.add(new Portfolio(new ArrayList<>(stocksSelected), weights.get(i)));
+        }
     }
-
-    void sec3OnAction(ActionEvent event) {
-        StockQuote stockQuote = new StockQuote();
-        stocksSelected.set(2, stockQuote);
-        checkAndCreatePortfolios();
-    }
-
     private void checkAndCreatePortfolios() {
         // Check if all three securities are selected
         if (areAllSecuritiesSelected()) {
             createPortfolios();
         }
     }
+    @FXML
+void UP(ActionEvent event) {
+    if (areAllSecuritiesSelected()) {
+        
+        
+        // Get the best-fit portfolio
+        Portfolio bestFit = bestFitPortfolio(listOfPortfolios);
+        
+        // Update the text fields with the best-fit portfolio information
+        if (bestFit != null && bestFit.getStocks().size() >= 3) {
+            Txt1.setText(String.valueOf(bestFit.getStocks().get(0).getLatestPrice()));
+            Txt2.setText(String.valueOf(bestFit.getStocks().get(1).getLatestPrice()));
+            Txt3.setText(String.valueOf(bestFit.getStocks().get(2).getLatestPrice()));
 
-    private boolean areAllSecuritiesSelected() {
-        return stocksSelected.size() == 3 && stocksSelected.get(0) != null && stocksSelected.get(1) != null && stocksSelected.get(2) != null;
-    }
-
-    private void createPortfolios() {
-        listOfPortfolios.clear(); // Clear everything that's in the list of portfolio options as we're creating new options.
-        for (int i = 0; i < 20; i++) {
-            listOfPortfolios.add(new Portfolio(new ArrayList<>(stocksSelected), weights.get(i)));
+         
         }
     }
+}
+
+private StockQuote getStockInfoBySymbol(String stockSymbol) {
+        // Call your API or data source to get stock information based on the symbol
+        // Replace "AAPL" with the stock symbol you want to test
+        IEXCloudApi api = new IEXCloudApi();
+        String stockInfoJson = api.getCurrentStockInfo(stockSymbol);
+
+        // Check if the response is not null
+        if (stockInfoJson != null) {
+            // Parse the JSON string using the StockDataParser
+            return StockDataParser.parseStockQuote(stockInfoJson);
+        } else {
+            System.out.println("Failed to fetch stock information for symbol: " + stockSymbol);
+            return null;
+        }
+}
+
+
+   
     
     /*
     for(int i = 0; i<20; i++){
@@ -148,34 +216,39 @@ public class FXMLController implements Initializable {
     */
     @FXML
  void generateGraphOnAction(ActionEvent event) {
-          createPortfolios();
+        createPortfolios();
 
-        // Clear existing data in the chart
-        Graph.getData().clear();
+    // Assuming Graph is an AreaChart<Double, Double>
+    Graph.getData().clear();
 
-        // Add series to the chart using portfolio data
-        for (int i = 0; i < listOfPortfolios.size(); i++) {
-            Portfolio portfolio = listOfPortfolios.get(i);
-            double risk = portfolio.getPortfolioRisk();
-            double returnVal = portfolio.getPortfolioReturn();
+    // Add series to the chart using portfolio data
+    for (int i = 0; i < listOfPortfolios.size(); i++) {
+        Portfolio portfolio = listOfPortfolios.get(i);
+        double risk = portfolio.getPortfolioRisk();
+        double returnVal = portfolio.getPortfolioReturn();
 
-            // Add data points to the series
-            XYChart.Series series = new XYChart.Series<>();
-            series.getData().add(new XYChart.Data<>(risk, returnVal));
-            
+        // Add data points to the series
+        XYChart.Series<Double, Double> series = new XYChart.Series<>();
+        series.getData().add(new XYChart.Data<>(risk, returnVal));
 
-            // Add the series to the chart
-            Graph.getData().add(series);
+        // Add the series to the chart
+        Graph.getData().add(series);
            
         }
     }
+    
+    @FXML
+    private ChoiceBox<Double> CBR;
+           
+    
     @FXML
     private AreaChart<Double, Double> Graph;
     
     @FXML
     private AnchorPane rootPane;
 
-    
+    @FXML
+    private QuadCurve Curve;
 
     @FXML
     private TextField sec2;
@@ -228,10 +301,7 @@ public class FXMLController implements Initializable {
     @FXML
     private ListView<String> ListView;
 
-    @FXML
-    void ListviewPop(MouseEvent event) {
-    ListView.setOpacity(1.0);
-    }
+    
 
     void GenerateOnAction(ActionEvent event) {
 
@@ -261,6 +331,7 @@ public class FXMLController implements Initializable {
     private Button generateGraph;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        weights = new ArrayList<>();
         weights.add(List.of(0.25, 0.3, 0.35)); //Add random diversifications to the List of weights
         weights.add(List.of(0.1, 0.5, 0.4));
         weights.add(List.of(0.2, 0.1, 0.6));
@@ -281,8 +352,30 @@ public class FXMLController implements Initializable {
         weights.add(List.of(0.1, 0.4, 0.5));
         weights.add(List.of(0.2, 0.5, 0.3));
         weights.add(List.of(0.3, 0.3, 0.35));
+        
+         // Add values to the ChoiceBox
+// Add event handler for ChoiceBox selection
+   // Add values to the ChoiceBox
+    ObservableList<Double> CBRValues = FXCollections.observableArrayList(100.0, 200.0, 300.0, 500.0, 700.0, 1000.0);
+    CBR.setItems(CBRValues);
 
+    // Add event handler for ChoiceBox selection
+    CBR.setOnAction((event) -> {
+        // Update userRiskTolerance based on selected value
+        Double selectedValue = CBR.getValue();
+        if (selectedValue != null) {
+            if (selectedValue == 100.0 || selectedValue == 200.0 || selectedValue == 300.0) {
+                userRiskToleranc = "conservative";
+            } else if (selectedValue == 500.0 || selectedValue == 700.0 || selectedValue == 1000.0) {
+                userRiskToleranc = "aggressive";
+            } else {
+                // Handle other cases if needed
+            }
+
+            System.out.println("User Risk Tolerance: " + userRiskToleranc);
+        }
+    });
+
+    }
+    
 }
-
-}
-
