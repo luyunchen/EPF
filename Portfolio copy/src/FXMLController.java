@@ -35,9 +35,10 @@ import javafx.scene.shape.QuadCurve;
  * @author sujansiva
  */
 public class FXMLController implements Initializable {
+    IEXCloudApi api = new IEXCloudApi();
     static String userRiskToleranc  ; //Each time the updateInvestorProfile is clicked, this should update to it.
     static double totalEquity; //
-    public static List<Integer> calculateStockQuantities(){
+    static List<Integer> calculateStockQuantities(){
          List<Integer> stockQuantities = new ArrayList<>();
 
         // Calculate the number of stocks for each stock based on the weights
@@ -50,7 +51,7 @@ public class FXMLController implements Initializable {
 
         return stockQuantities;   
     }
-    public static Portfolio bestFitPortfolio(List<Portfolio> portfolios){
+    static Portfolio bestFitPortfolio(List<Portfolio> portfolios){
         switch(userRiskToleranc){
         
             case "conservative": {
@@ -86,20 +87,9 @@ public class FXMLController implements Initializable {
             }
         }
     }
-    
-    
-    
-    public static List<List<Double>> weights; //These are some random weights of the stocks for each portfolio. There's gonna be 20 portfolio, meaning 20 data points.
-        
-        
-        
-        
-
-        
-    
-    
-    public static List<StockQuote> stocksSelected = new ArrayList<>(); //Empty list of StockQuotes. When user changes the first security, call setOnAction -> stocksSelected.set(0,*stockquote object*) and so on
-    public static List<Portfolio> listOfPortfolios;
+    static List<List<Double>> weights; //These are some random weights of the stocks for each portfolio. There's gonna be 20 portfolio, meaning 20 data points. 
+    static List<StockQuote> stocksSelected = new ArrayList<>(); //Empty list of StockQuotes. When user changes the first security, call setOnAction -> stocksSelected.set(0,*stockquote object*) and so on
+    static List<Portfolio> listOfPortfolios;
 
     @FXML
     private TextField sec1;
@@ -111,29 +101,28 @@ public class FXMLController implements Initializable {
   @FXML
     void SymbolName(KeyEvent event) {
        
-if (event.getCode() == KeyCode.ENTER) {
+        if (event.getCode() == KeyCode.ENTER) {
             String stockSymbol = BarSearch.getText().toUpperCase();
-            
+
             if (!stockSymbol.isEmpty()) {
-    StockQuote stockQuote = getStockInfoBySymbol(stockSymbol);
-                
-       if (sec1.getText().isEmpty()) {
-    stocksSelected.set(0, stockQuote);
-    sec1.setText(stockQuote.getSymbol());
-    St1.setText(stockQuote.getSymbol());
-   
-} else if (sec2.getText().isEmpty() && !stockSymbol.equals(sec1.getText())) {
-    stocksSelected.set(1, stockQuote);
-    sec2.setText(stockQuote.getSymbol());
-    St2.setText(stockQuote.getSymbol());
-    
-} else if (sec3.getText().isEmpty() && !stockSymbol.equals(sec1.getText()) && !stockSymbol.equals(sec2.getText())) {
-    stocksSelected.set(2, stockQuote);
-    sec3.setText(stockQuote.getSymbol());
-    St3.setText(stockQuote.getSymbol());
-   
-    
-}
+                StockQuote stockQuote = getStockInfoBySymbol(stockSymbol);
+
+                if (sec1.getText().isEmpty()) {
+                    stocksSelected.set(0, stockQuote);
+                    sec1.setText(stockQuote.getSymbol());
+                    St1.setText(stockQuote.getSymbol());
+                }
+                else if (sec2.getText().isEmpty() && !stockSymbol.equals(sec1.getText())) {
+                    stocksSelected.set(1, stockQuote);
+                    sec2.setText(stockQuote.getSymbol());
+                    St2.setText(stockQuote.getSymbol());
+
+                } 
+                else if (sec3.getText().isEmpty() && !stockSymbol.equals(sec1.getText()) && !stockSymbol.equals(sec2.getText())) {
+                    stocksSelected.set(2, stockQuote);
+                    sec3.setText(stockQuote.getSymbol());
+                    St3.setText(stockQuote.getSymbol());
+                }
   // Display the stock information
             if (stockQuote != null) {
                 System.out.println("Symbol: " + stockQuote.getSymbol());
@@ -143,7 +132,8 @@ if (event.getCode() == KeyCode.ENTER) {
             } else {
                 System.out.println("Failed to parse stock information.");
             }
-        } else {
+        } 
+        else {
             System.out.println("Failed to fetch stock information.");
         }
 
@@ -154,7 +144,7 @@ if (event.getCode() == KeyCode.ENTER) {
                 
     }
     
- private boolean areAllSecuritiesSelected() {
+    private boolean areAllSecuritiesSelected() {
         return stocksSelected.size() == 3 && stocksSelected.get(0) != null && stocksSelected.get(1) != null && stocksSelected.get(2) != null;
     }
 
@@ -171,23 +161,21 @@ if (event.getCode() == KeyCode.ENTER) {
         }
     }
     @FXML
-void UP(ActionEvent event) {
-    if (areAllSecuritiesSelected()) {
-        
-        
-        // Get the best-fit portfolio
-        Portfolio bestFit = bestFitPortfolio(listOfPortfolios);
-        
-        // Update the text fields with the best-fit portfolio information
-        if (bestFit != null && bestFit.getStocks().size() >= 3) {
-            Txt1.setText(String.valueOf(bestFit.getStocks().get(0).getLatestPrice()));
-            Txt2.setText(String.valueOf(bestFit.getStocks().get(1).getLatestPrice()));
-            Txt3.setText(String.valueOf(bestFit.getStocks().get(2).getLatestPrice()));
+    void UP(ActionEvent event) {
+        if (areAllSecuritiesSelected()) {
+            // Get the best-fit portfolio
+            Portfolio bestFit = bestFitPortfolio(listOfPortfolios);
 
-         
+            // Update the text fields with the best-fit portfolio information
+            if (bestFit != null && bestFit.getStocks().size() >= 3) {
+                Txt1.setText(String.valueOf(bestFit.getStocks().get(0).getLatestPrice()));
+                Txt2.setText(String.valueOf(bestFit.getStocks().get(1).getLatestPrice()));
+                Txt3.setText(String.valueOf(bestFit.getStocks().get(2).getLatestPrice()));
+
+
+            }
         }
     }
-}
     @FXML
     void generateGraphOnAction(ActionEvent event) {
         createPortfolios();
@@ -239,31 +227,20 @@ void UP(ActionEvent event) {
 
 
     private StockQuote getStockInfoBySymbol(String stockSymbol) {
-            // Call your API or data source to get stock information based on the symbol
-            // Replace "AAPL" with the stock symbol you want to test
-            IEXCloudApi api = new IEXCloudApi();
-            String stockInfoJson = api.getCurrentStockInfo(stockSymbol);
+        // Call your API or data source to get stock information based on the symbol
+        // Replace "AAPL" with the stock symbol you want to test
 
-            // Check if the response is not null
-            if (stockInfoJson != null) {
-                // Parse the JSON string using the StockDataParser
-                return StockDataParser.parseStockQuote(stockInfoJson);
-            } else {
-                System.out.println("Failed to fetch stock information for symbol: " + stockSymbol);
-                return null;
-            }
+        String stockInfoJson = api.getCurrentStockInfo(stockSymbol);
+
+        // Check if the response is not null
+        if (stockInfoJson != null) {
+            // Parse the JSON string using the StockDataParser
+            return StockDataParser.parseStockQuote(stockInfoJson);
+        } else {
+            System.out.println("Failed to fetch stock information for symbol: " + stockSymbol);
+            return null;
+        }
     }
-
-
-   
-    
-    /*
-    for(int i = 0; i<20; i++){
-        listOfPortfolios.clear(); //Clear everything that's in the list of portfolio options as we're creating new options.
-        listOfPortfolios.add(new Portfolio(stocksSelected,weights.get(i));
-    }
-
-    */
    
     
     @FXML
