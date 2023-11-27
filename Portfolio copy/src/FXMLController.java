@@ -35,8 +35,6 @@ import javafx.scene.shape.QuadCurve;
  * @author sujansiva
  */
 public class FXMLController implements Initializable {
-    public static List<StockQuote> stocksSelected; //Empty list of StockQuotes. When user changes the first security, call setOnAction -> stocksSelected.set(0,*stockquote object*) and so on
-    public static List<Portfolio> listOfPortfolios;
     static String userRiskToleranc  ; //Each time the updateInvestorProfile is clicked, this should update to it.
     static double totalEquity; //
     public static List<Integer> calculateStockQuantities(){
@@ -100,6 +98,8 @@ public class FXMLController implements Initializable {
         
     
     
+     public static List<StockQuote> stocksSelected = new ArrayList<>(); //Empty list of StockQuotes. When user changes the first security, call setOnAction -> stocksSelected.set(0,*stockquote object*) and so on
+    public static List<Portfolio> listOfPortfolios;
 
     @FXML
     private TextField sec1;
@@ -115,7 +115,7 @@ if (event.getCode() == KeyCode.ENTER) {
             String stockSymbol = BarSearch.getText().toUpperCase();
             
             if (!stockSymbol.isEmpty()) {
-                StockQuote stockQuote = getStockInfoBySymbol(stockSymbol);
+    StockQuote stockQuote = getStockInfoBySymbol(stockSymbol);
                 
        if (sec1.getText().isEmpty()) {
     stocksSelected.add(0, stockQuote);
@@ -150,8 +150,8 @@ if (event.getCode() == KeyCode.ENTER) {
                 
            
         }
-                // Check and create portfolios
-                checkAndCreatePortfolios();
+                
+                
     }
     
  private boolean areAllSecuritiesSelected() {
@@ -188,6 +188,53 @@ void UP(ActionEvent event) {
         }
     }
 }
+    @FXML
+    void generateGraphOnAction(ActionEvent event) {
+        // Check if portfolios have been created
+        if (listOfPortfolios != null && !listOfPortfolios.isEmpty()) {
+            // Clear existing data on the chart
+            Graph.getData().clear();
+
+            // Create a new series for the chart
+            XYChart.Series<Double, Double> series = new XYChart.Series<>();
+
+            // Iterate through the list of portfolios
+            for (Portfolio portfolio : listOfPortfolios) {
+                // Add a data point using portfolio risk as X and portfolio return as Y
+                series.getData().add(new XYChart.Data<>(portfolio.getPortfolioRisk(), portfolio.getPortfolioReturn()));
+            }
+
+            // Add the series to the chart
+            Graph.getData().add(series);
+
+            // Set the control points for the QuadCurve based on the first and last data points
+            if (!series.getData().isEmpty()) {
+                double startX = series.getData().get(0).getXValue();
+                double startY = series.getData().get(0).getYValue();
+
+                double endX = series.getData().get(series.getData().size() - 1).getXValue();
+                double endY = series.getData().get(series.getData().size() - 1).getYValue();
+
+                double controlX = (startX + endX) / 2.0;
+                double controlY = Math.min(startY, endY) - 50.0;
+
+                // Set QuadCurve properties
+                Curve.setStartX(startX);
+                Curve.setStartY(startY);
+                Curve.setEndX(endX);
+                Curve.setEndY(endY);
+                Curve.setControlX(controlX);
+                Curve.setControlY(controlY);
+            }
+        } else {
+            System.out.println("No portfolios available to generate the graph.");
+        }
+    }
+
+  
+
+
+
 
 private StockQuote getStockInfoBySymbol(String stockSymbol) {
         // Call your API or data source to get stock information based on the symbol
@@ -215,28 +262,7 @@ private StockQuote getStockInfoBySymbol(String stockSymbol) {
     }
 
     */
-    @FXML
- void generateGraphOnAction(ActionEvent event) {
-        createPortfolios();
-
-    // Assuming Graph is an AreaChart<Double, Double>
-    Graph.getData().clear();
-
-    // Add series to the chart using portfolio data
-    for (int i = 0; i < listOfPortfolios.size(); i++) {
-        Portfolio portfolio = listOfPortfolios.get(i);
-        double risk = portfolio.getPortfolioRisk();
-        double returnVal = portfolio.getPortfolioReturn();
-
-        // Add data points to the series
-        XYChart.Series<Double, Double> series = new XYChart.Series<>();
-        series.getData().add(new XYChart.Data<>(risk, returnVal));
-
-        // Add the series to the chart
-        Graph.getData().add(series);
-           
-        }
-    }
+   
     
     @FXML
     private ChoiceBox<Double> CBR;
@@ -332,7 +358,9 @@ private StockQuote getStockInfoBySymbol(String stockSymbol) {
     private Button generateGraph;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        weights = new ArrayList<>();
+         listOfPortfolios = new ArrayList<>();
+
+    weights = new ArrayList<>();
         weights.add(List.of(0.25, 0.3, 0.35)); //Add random diversifications to the List of weights
         weights.add(List.of(0.1, 0.5, 0.4));
         weights.add(List.of(0.2, 0.1, 0.6));
