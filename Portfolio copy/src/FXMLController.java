@@ -31,6 +31,8 @@ import javafx.scene.layout.HBox;
  * @author sujansiva
  */
 public class FXMLController implements Initializable {
+    public static List<StockQuote> stocksSelected; //Empty list of StockQuotes. When user changes the first security, call setOnAction -> stocksSelected.set(0,*stockquote object*) and so on
+    public static List<Portfolio> listOfPortfolios;
     static String userRiskToleranc  ; //Each time the updateInvestorProfile is clicked, this should update to it.
     static double totalEquity; //
     public static List<Integer> calculateStockQuantities(){
@@ -94,8 +96,7 @@ public class FXMLController implements Initializable {
         
     
     
-    public static List<StockQuote> stocksSelected; //Empty list of StockQuotes. When user changes the first security, call setOnAction -> stocksSelected.set(0,*stockquote object*) and so on
-    public static List<Portfolio> listOfPortfolios;
+    
     @FXML
     private TextField sec1;
     @FXML
