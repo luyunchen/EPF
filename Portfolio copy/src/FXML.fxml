@@ -101,7 +101,7 @@
       <Line endX="5.569427490234375" layoutX="200.0" layoutY="172.0" startX="5.569427490234375" startY="275.17462158203125" stroke="WHITE" />
       <VBox layoutX="48.0" layoutY="65.0" prefHeight="410.0" prefWidth="150.0">
          <children>
-            <TextField fx:id="BarSearch" onKeyPressed="#ListviewPop" onMouseClicked="#ListviewPop" opacity="0.79" prefHeight="27.0" prefWidth="162.0" />
+            <TextField fx:id="BarSearch" onAction="#SymbolName" onKeyPressed="#ListviewPop" opacity="0.79" prefHeight="27.0" prefWidth="162.0" />
             <ListView fx:id="ListView" opacity="0.0" prefHeight="386.0" prefWidth="150.0" />
          </children>
       </VBox>
@@ -131,6 +131,10 @@
          <font>
             <Font name="System Bold" size="24.0" />
          </font>
+      </Label>
+   </children>
+</AnchorPane>
+
       </Label>
    </children>
 </AnchorPane>
