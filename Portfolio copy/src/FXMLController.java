@@ -98,7 +98,7 @@ public class FXMLController implements Initializable {
         
     
     
-     public static List<StockQuote> stocksSelected = new ArrayList<>(); //Empty list of StockQuotes. When user changes the first security, call setOnAction -> stocksSelected.set(0,*stockquote object*) and so on
+    public static List<StockQuote> stocksSelected = new ArrayList<>(); //Empty list of StockQuotes. When user changes the first security, call setOnAction -> stocksSelected.set(0,*stockquote object*) and so on
     public static List<Portfolio> listOfPortfolios;
 
     @FXML
@@ -118,17 +118,17 @@ if (event.getCode() == KeyCode.ENTER) {
     StockQuote stockQuote = getStockInfoBySymbol(stockSymbol);
                 
        if (sec1.getText().isEmpty()) {
-    stocksSelected.add(0, stockQuote);
+    stocksSelected.set(0, stockQuote);
     sec1.setText(stockQuote.getSymbol());
     St1.setText(stockQuote.getSymbol());
    
 } else if (sec2.getText().isEmpty() && !stockSymbol.equals(sec1.getText())) {
-    stocksSelected.add(1, stockQuote);
+    stocksSelected.set(1, stockQuote);
     sec2.setText(stockQuote.getSymbol());
     St2.setText(stockQuote.getSymbol());
     
 } else if (sec3.getText().isEmpty() && !stockSymbol.equals(sec1.getText()) && !stockSymbol.equals(sec2.getText())) {
-    stocksSelected.add(2, stockQuote);
+    stocksSelected.set(2, stockQuote);
     sec3.setText(stockQuote.getSymbol());
     St3.setText(stockQuote.getSymbol());
    
@@ -190,8 +190,10 @@ void UP(ActionEvent event) {
 }
     @FXML
     void generateGraphOnAction(ActionEvent event) {
+        createPortfolios();
         // Check if portfolios have been created
         if (listOfPortfolios != null && !listOfPortfolios.isEmpty()) {
+            
             // Clear existing data on the chart
             Graph.getData().clear();
 
@@ -236,21 +238,21 @@ void UP(ActionEvent event) {
 
 
 
-private StockQuote getStockInfoBySymbol(String stockSymbol) {
-        // Call your API or data source to get stock information based on the symbol
-        // Replace "AAPL" with the stock symbol you want to test
-        IEXCloudApi api = new IEXCloudApi();
-        String stockInfoJson = api.getCurrentStockInfo(stockSymbol);
+    private StockQuote getStockInfoBySymbol(String stockSymbol) {
+            // Call your API or data source to get stock information based on the symbol
+            // Replace "AAPL" with the stock symbol you want to test
+            IEXCloudApi api = new IEXCloudApi();
+            String stockInfoJson = api.getCurrentStockInfo(stockSymbol);
 
-        // Check if the response is not null
-        if (stockInfoJson != null) {
-            // Parse the JSON string using the StockDataParser
-            return StockDataParser.parseStockQuote(stockInfoJson);
-        } else {
-            System.out.println("Failed to fetch stock information for symbol: " + stockSymbol);
-            return null;
-        }
-}
+            // Check if the response is not null
+            if (stockInfoJson != null) {
+                // Parse the JSON string using the StockDataParser
+                return StockDataParser.parseStockQuote(stockInfoJson);
+            } else {
+                System.out.println("Failed to fetch stock information for symbol: " + stockSymbol);
+                return null;
+            }
+    }
 
 
    
