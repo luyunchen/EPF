@@ -100,12 +100,7 @@ public class FXMLController implements Initializable {
         
     
     
-<<<<<<< HEAD
-    
-=======
-     public static List<StockQuote> stocksSelected = new ArrayList<>(); //Empty list of StockQuotes. When user changes the first security, call setOnAction -> stocksSelected.set(0,*stockquote object*) and so on
-    public static List<Portfolio> listOfPortfolios;
->>>>>>> ea9d43dcaa23412d8e2b22b6197eb632be49f06f
+
     @FXML
     private TextField sec1;
     
