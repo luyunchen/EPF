@@ -40,7 +40,7 @@ public class FXMLController implements Initializable {
     static double totalEquity; //
     static List<Integer> calculateStockQuantities(){
          List<Integer> stockQuantities = new ArrayList<>();
-
+          
         // Calculate the number of stocks for each stock based on the weights
         for (int i = 0; i < bestFitPortfolio(listOfPortfolios).getStocks().size(); i++) {
             double stockWeight = bestFitPortfolio(listOfPortfolios).getWeights().get(i);
@@ -51,6 +51,7 @@ public class FXMLController implements Initializable {
 
         return stockQuantities;   
     }
+    
     static Portfolio bestFitPortfolio(List<Portfolio> portfolios){
         switch(userRiskToleranc){
         
@@ -87,18 +88,15 @@ public class FXMLController implements Initializable {
             }
         }
     }
+    
     static List<List<Double>> weights; //These are some random weights of the stocks for each portfolio. There's gonna be 20 portfolio, meaning 20 data points. 
     static List<StockQuote> stocksSelected = new ArrayList<>(); //Empty list of StockQuotes. When user changes the first security, call setOnAction -> stocksSelected.set(0,*stockquote object*) and so on
     static List<Portfolio> listOfPortfolios;
-
+    
     @FXML
     private TextField sec1;
     
-    
-    //Use following code for creating portfolios when 1. 'create graph' button is pressed OR 2. When both of these conditions are met : 2.1 A security slot has been changed 2.2 All three securities are selected. 
-    // In this case, call setOnAction for security selection and then if statement to see if all three securities slots are filled.
-
-  @FXML
+    @FXML
     void SymbolName(KeyEvent event) {
        
         if (event.getCode() == KeyCode.ENTER) {
@@ -135,13 +133,8 @@ public class FXMLController implements Initializable {
         } 
         else {
             System.out.println("Failed to fetch stock information.");
-        }
-
-                
-           
-        }
-                
-                
+        }       
+        }            
     }
     
     private boolean areAllSecuritiesSelected() {
@@ -154,12 +147,14 @@ public class FXMLController implements Initializable {
             listOfPortfolios.add(new Portfolio(new ArrayList<>(stocksSelected), weights.get(i)));
         }
     }
+    
     private void checkAndCreatePortfolios() {
         // Check if all three securities are selected
         if (areAllSecuritiesSelected()) {
             createPortfolios();
         }
     }
+    
     @FXML
     void UP(ActionEvent event) {
         if (areAllSecuritiesSelected()) {
@@ -176,9 +171,10 @@ public class FXMLController implements Initializable {
             }
         }
     }
+    
     @FXML
     void generateGraphOnAction(ActionEvent event) {
-        createPortfolios();
+        checkAndCreatePortfolios();
         // Check if portfolios have been created
         if (listOfPortfolios != null && !listOfPortfolios.isEmpty()) {
             
@@ -221,11 +217,6 @@ public class FXMLController implements Initializable {
         }
     }
 
-  
-
-
-
-
     private StockQuote getStockInfoBySymbol(String stockSymbol) {
         // Call your API or data source to get stock information based on the symbol
         // Replace "AAPL" with the stock symbol you want to test
@@ -241,33 +232,39 @@ public class FXMLController implements Initializable {
             return null;
         }
     }
-   
+  
     
     @FXML
     private ChoiceBox<Double> CBR;
-           
+          
     
     @FXML
     private AreaChart<Double, Double> Graph;
     
+    
     @FXML
     private AnchorPane rootPane;
-
+    
+    
     @FXML
     private QuadCurve Curve;
-
+    
+    
     @FXML
     private TextField sec2;
 
     @FXML
     private TextField sec3;
-
+    
+    
     @FXML
     private Label LabelName;
-
+    
+    
     @FXML
     private TextField TextFieldName;
-
+    
+    
     @FXML
     private Label LabelRisk;
 
@@ -281,7 +278,6 @@ public class FXMLController implements Initializable {
     @FXML
     private Button Update;
 
-  
 
     @FXML
     private Label LabelAsset;
@@ -307,11 +303,6 @@ public class FXMLController implements Initializable {
     @FXML
     private ListView<String> ListView;
 
-    
-
-    void GenerateOnAction(ActionEvent event) {
-
-    }
     @FXML
     private Label St1;
 
