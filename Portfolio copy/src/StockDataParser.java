@@ -32,8 +32,8 @@ public class StockDataParser {
             System.out.println("Beta field not found in JSON response or is null.");
         }
 
-       stockQuote.setRiskFreeRate(0.407);
-       stockQuote.setExpectedMarketReturn(0.0);
+      
+        
 
         return stockQuote;
     } catch (JSONException e) {
