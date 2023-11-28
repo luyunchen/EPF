@@ -63,27 +63,24 @@ if (bestFit != null && !bestFit.getStocks().isEmpty() && !bestFit.getWeights().i
         
             case "conservative": {
                 if (!portfolios.isEmpty()) {
-    Portfolio smallestRiskPortfolio = portfolios.get(0);
+                    Portfolio smallestRiskPortfolio = portfolios.get(0);
 
-    // Iterate through the rest of the portfolios
-    for (int i = 1; i < portfolios.size(); i++) {
-        Portfolio currentPortfolio = portfolios.get(i);
+                    // Iterate through the rest of the portfolios
+                    for (int i = 1; i < portfolios.size(); i++) {
+                        Portfolio currentPortfolio = portfolios.get(i);
 
-        // Compare the risk of the current portfolio with the smallestRiskPortfolio
-        if (currentPortfolio.getPortfolioRisk() < smallestRiskPortfolio.getPortfolioRisk()) {
-            smallestRiskPortfolio = currentPortfolio; // Update if the current portfolio has smaller risk
-        }
-    }
+                        // Compare the risk of the current portfolio with the smallestRiskPortfolio
+                        if (currentPortfolio.getPortfolioRisk() < smallestRiskPortfolio.getPortfolioRisk()) {
+                            smallestRiskPortfolio = currentPortfolio; // Update if the current portfolio has smaller risk
+                        }
+                    }
 
-    return smallestRiskPortfolio;
-} else {
-    // Handle the case where the list of portfolios is empty
-   
-    return new Portfolio(); // or null, depending on your logic
-}
-            }
+                    return smallestRiskPortfolio;
+                
+            }}
             case "aggressive": {
                 Portfolio highestReturnsPortfolio = portfolios.get(0);
+                
                 for (int i = 1; i < portfolios.size(); i++) {
                     Portfolio currentPortfolio = portfolios.get(i);
 
@@ -102,7 +99,7 @@ if (bestFit != null && !bestFit.getStocks().isEmpty() && !bestFit.getWeights().i
     }
     
     static List<List<Double>> weights; //These are some random weights of the stocks for each portfolio. There's gonna be 20 portfolio, meaning 20 data points. 
-    static List<StockQuote> stocksSelected = new ArrayList<>(); //Empty list of StockQuotes. When user changes the first security, call setOnAction -> stocksSelected.set(0,*stockquote object*) and so on
+    static List<StockQuote> stocksSelected = new ArrayList<>(3); //Empty list of StockQuotes. When user changes the first security, call setOnAction -> stocksSelected.set(0,*stockquote object*) and so on
     static List<Portfolio> listOfPortfolios;
     
     @FXML
@@ -228,7 +225,7 @@ if (bestFit != null && !bestFit.getStocks().isEmpty() && !bestFit.getWeights().i
         }
     }
 
-    private StockQuote getStockInfoBySymbol(String stockSymbol) {
+    public StockQuote getStockInfoBySymbol(String stockSymbol) {
         // Call your API or data source to get stock information based on the symbol
         // Replace "AAPL" with the stock symbol you want to test
 
@@ -378,6 +375,6 @@ if (bestFit != null && !bestFit.getStocks().isEmpty() && !bestFit.getWeights().i
     
 
 
-    }
     
-}
+    
+
