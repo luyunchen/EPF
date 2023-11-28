@@ -14,6 +14,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.fxml.FXML;
 import javafx.scene.chart.AreaChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.ScatterChart;
 import javafx.scene.chart.XYChart;
 
 import javafx.scene.control.Button;
@@ -181,50 +184,25 @@ public class FXMLController implements Initializable {
 }
     }
     
-    @FXML
+  @FXML
     void generateGraphOnAction(ActionEvent event) {
         checkAndCreatePortfolios();
-        // Check if portfolios have been created
-        if (listOfPortfolios != null && !listOfPortfolios.isEmpty()) {
-            
-            // Clear existing data on the chart
-            Graph.getData().clear();
 
-            // Create a new series for the chart
-            XYChart.Series<Double, Double> series = new XYChart.Series<>();
 
-            // Iterate through the list of portfolios
-            for (Portfolio portfolio : listOfPortfolios) {
-                // Add a data point using portfolio risk as X and portfolio return as Y
-                series.getData().add(new XYChart.Data<>(portfolio.getPortfolioRisk(), portfolio.getPortfolioReturn()));
-            }
 
-            // Add the series to the chart
-            Graph.getData().add(series);
+    // Add data to the chart
+    for (Portfolio portfolio : listOfPortfolios) {
+        double risk = portfolio.getPortfolioRisk();
+        double returns = portfolio.getPortfolioReturn();
+        
+        System.out.println("Adding data to chart - Risk: " + risk + ", Returns: " + returns);
 
-            // Set the control points for the QuadCurve based on the first and last data points
-            if (!series.getData().isEmpty()) {
-                double startX = series.getData().get(0).getXValue();
-                double startY = series.getData().get(0).getYValue();
-
-                double endX = series.getData().get(series.getData().size() - 1).getXValue();
-                double endY = series.getData().get(series.getData().size() - 1).getYValue();
-
-                double controlX = (startX + endX) / 2.0;
-                double controlY = Math.min(startY, endY) - 50.0;
-
-                // Set QuadCurve properties
-                Curve.setStartX(startX);
-                Curve.setStartY(startY);
-                Curve.setEndX(endX);
-                Curve.setEndY(endY);
-                Curve.setControlX(controlX);
-                Curve.setControlY(controlY);
-            }
-        } else {
-            System.out.println("No portfolios available to generate the graph.");
-        }
+        XYChart.Series series = new XYChart.Series();
+        series.getData().add(new XYChart.Data<>(risk, returns));
+        Chart.getData().add(series);
     }
+    }
+    
 
     public StockQuote getStockInfoBySymbol(String stockSymbol) {
         // Call your API or data source to get stock information based on the symbol
@@ -335,6 +313,16 @@ public class FXMLController implements Initializable {
 
     @FXML
     private Button generateGraph;
+    
+    @FXML
+    private ScatterChart<Double,Double>Chart;
+    
+    @FXML
+    private CategoryAxis Xaxis;
+    
+    @FXML
+    private NumberAxis Yaxis;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
          
@@ -369,6 +357,13 @@ public class FXMLController implements Initializable {
         // Add event handler for ChoiceBox selection
         CBR.setOnAction(event -> userRiskTolerance = CBR.getValue().toLowerCase());
     
+    Yaxis.setAutoRanging(false); // Disable auto-ranging
+    Yaxis.setLowerBound(1);       // Set the lower bound of the y-axis
+    Yaxis.setUpperBound(5);       // Set the upper bound of the y-axis
+    Yaxis.setTickUnit(0.5); 
+    
+
+        
 }
 }
 
