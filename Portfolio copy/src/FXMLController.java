@@ -48,6 +48,7 @@ public class FXMLController implements Initializable {
     static Portfolio bestFitPortfolio;
     
     static List<Integer> calculateStockQuantities(){
+        setBestFitPortfolio();
         List<Integer> stockQuantities = new ArrayList<>();
         if (bestFitPortfolio != null && !bestFitPortfolio.getStocks().isEmpty() && !bestFitPortfolio.getWeights().isEmpty()) {
             
@@ -64,16 +65,16 @@ public class FXMLController implements Initializable {
             return stockQuantities;
             }
     
-    static void setBestFitPortfolio(List<Portfolio> portfolios){
+    static void setBestFitPortfolio(){
         switch(userRiskTolerance){
         
             case "conservative": {
-                if (!portfolios.isEmpty()) {
-                    Portfolio smallestRiskPortfolio = portfolios.get(0);
+                
+                    Portfolio smallestRiskPortfolio = listOfPortfolios.get(0);
 
                     // Iterate through the rest of the portfolios
-                    for (int i = 1; i < portfolios.size(); i++) {
-                        Portfolio currentPortfolio = portfolios.get(i);
+                    for (int i = 1; i < listOfPortfolios.size(); i++) {
+                        Portfolio currentPortfolio = listOfPortfolios.get(i);
 
                         // Compare the risk of the current portfolio with the smallestRiskPortfolio
                         if (currentPortfolio.getPortfolioRisk() < smallestRiskPortfolio.getPortfolioRisk()) {
@@ -82,13 +83,13 @@ public class FXMLController implements Initializable {
                     }
 
                     bestFitPortfolio = smallestRiskPortfolio;
-                
-            }}
+                    break;
+            }
             case "aggressive": {
-                Portfolio highestReturnsPortfolio = portfolios.get(0);
+                Portfolio highestReturnsPortfolio = listOfPortfolios.get(0);
                 
-                for (int i = 1; i < portfolios.size(); i++) {
-                    Portfolio currentPortfolio = portfolios.get(i);
+                for (int i = 1; i < listOfPortfolios.size(); i++) {
+                    Portfolio currentPortfolio = listOfPortfolios.get(i);
 
                     // Compare returns of the current portfolio with the highestReturnsPortfolio
                     if (currentPortfolio.getPortfolioReturn() > highestReturnsPortfolio.getPortfolioReturn()) {
@@ -97,10 +98,9 @@ public class FXMLController implements Initializable {
                 }
 
                 bestFitPortfolio = highestReturnsPortfolio;
+                break;
             }
-            default:{
-              
-            }
+            
         }
     }
     
@@ -173,7 +173,7 @@ public class FXMLController implements Initializable {
         if (areAllSecuritiesSelected()) {
     // Get the best-fit portfolio
        createPortfolios();
-       setBestFitPortfolio(listOfPortfolios);
+       setBestFitPortfolio();
        
 
     // Update the text fields with the best-fit portfolio information
@@ -181,7 +181,8 @@ public class FXMLController implements Initializable {
         Txt1.setText(String.valueOf(calculateStockQuantities().get(0)));
         Txt2.setText(String.valueOf(calculateStockQuantities().get(1)));
         Txt3.setText(String.valueOf(calculateStockQuantities().get(2)));
-        System.out.println(Txt3.getText());
+        System.out.println(userRiskTolerance);
+        System.out.println(Txt1.getText());
         System.out.println("Portfolio updated successfully!");
     }
 }
