@@ -130,9 +130,6 @@
           <NumberAxis fx:id="Yaxis" side="LEFT" />
         </yAxis>
       </ScatterChart>
-      <TextField layoutX="275.0" layoutY="416.0" prefHeight="27.0" prefWidth="92.0" />
+      <TextField fx:id="Asset" layoutX="275.0" layoutY="416.0" onKeyReleased="#ChangeAsset" prefHeight="27.0" prefWidth="92.0" />
    </children>
 </AnchorPane>
-
-
-

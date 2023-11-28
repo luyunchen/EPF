@@ -181,6 +181,7 @@ public class FXMLController implements Initializable {
         Txt1.setText(String.valueOf(calculateStockQuantities().get(0)));
         Txt2.setText(String.valueOf(calculateStockQuantities().get(1)));
         Txt3.setText(String.valueOf(calculateStockQuantities().get(2)));
+        System.out.println(Txt3.getText());
         System.out.println("Portfolio updated successfully!");
     }
 }
@@ -223,13 +224,11 @@ public class FXMLController implements Initializable {
     }
       @FXML
     void ChangeAsset(KeyEvent event){
-    if (event.getCode() == KeyCode.ENTER){
-        
+    
         totalEquity = Double.parseDouble(Asset.getText());
-        System.out.println(totalEquity);
         
         
-    }
+    
     }
     
     @FXML
@@ -279,7 +278,8 @@ public class FXMLController implements Initializable {
 
     @FXML
     private Label LabelAsset;
-
+    @FXML
+    private TextField Asset;
     @FXML
     private CheckBox CB1;
 
