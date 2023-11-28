@@ -38,7 +38,10 @@ import javafx.scene.shape.QuadCurve;
 public class FXMLController implements Initializable {
     IEXCloudApi api = new IEXCloudApi();
     static String userRiskTolerance  ; //Each time the updateInvestorProfile is clicked, this should update to it.
-    static double totalEquity; 
+    static double totalEquity;
+    static List<List<Double>> weights = new ArrayList<>(20); //These are some random weights of the stocks for each portfolio. There's gonna be 20 portfolio, meaning 20 data points. 
+    static List<StockQuote> stocksSelected = new ArrayList<>(3); //Empty list of StockQuotes. When user changes the first security, call setOnAction -> stocksSelected.set(0,*stockquote object*) and so on
+    static List<Portfolio> listOfPortfolios = new ArrayList<>(20);
     
     static List<Integer> calculateStockQuantities(){
         List<Integer> stockQuantities = new ArrayList<>();
@@ -98,9 +101,7 @@ public class FXMLController implements Initializable {
         }
     }
     
-    static List<List<Double>> weights; //These are some random weights of the stocks for each portfolio. There's gonna be 20 portfolio, meaning 20 data points. 
-    static List<StockQuote> stocksSelected = new ArrayList<>(3); //Empty list of StockQuotes. When user changes the first security, call setOnAction -> stocksSelected.set(0,*stockquote object*) and so on
-    static List<Portfolio> listOfPortfolios;
+    
     
     @FXML
     private TextField sec1;

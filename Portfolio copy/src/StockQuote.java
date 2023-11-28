@@ -16,8 +16,8 @@ public class StockQuote implements securityReturn{
     private String fullName; 
     private Double beta;     
     
-    private static Double expectedMarketReturn;
-    private static Double riskFreeRate;
+    private static Double expectedMarketReturn = (1.0927);
+    private static Double riskFreeRate = (0.0407);
     
     
     // Getters and setters
@@ -51,6 +51,22 @@ public class StockQuote implements securityReturn{
 
     public void setBeta(Double beta) {
         this.beta = beta;
+    }
+
+    public static void setExpectedMarketReturn(Double expectedMarketReturn) {
+        StockQuote.expectedMarketReturn = expectedMarketReturn;
+    }
+
+    public static void setRiskFreeRate(Double riskFreeRate) {
+        StockQuote.riskFreeRate = riskFreeRate;
+    }
+
+    public static Double getExpectedMarketReturn() {
+        return expectedMarketReturn;
+    }
+
+    public static Double getRiskFreeRate() {
+        return riskFreeRate;
     }
     
     
