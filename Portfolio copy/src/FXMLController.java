@@ -42,15 +42,16 @@ public class FXMLController implements Initializable {
     static List<List<Double>> weights = new ArrayList<>(20); //These are some random weights of the stocks for each portfolio. There's gonna be 20 portfolio, meaning 20 data points. 
     static List<StockQuote> stocksSelected = new ArrayList<>(3); //Empty list of StockQuotes. When user changes the first security, call setOnAction -> stocksSelected.set(0,*stockquote object*) and so on
     static List<Portfolio> listOfPortfolios = new ArrayList<>(20);
+    static Portfolio bestFitPortfolio;
     
     static List<Integer> calculateStockQuantities(){
         List<Integer> stockQuantities = new ArrayList<>();
-        Portfolio bestFit = bestFitPortfolio(listOfPortfolios);
+        setBestFitPortfolio(listOfPortfolios);
 
-        if (bestFit != null && !bestFit.getStocks().isEmpty() && !bestFit.getWeights().isEmpty()) {
-            for (int i = 0; i < bestFit.getStocks().size(); i++) {
-                double stockWeight = bestFit.getWeights().get(i);
-                double stockValue = bestFit.getStocks().get(i).getLatestPrice();
+        if (bestFitPortfolio != null && !bestFitPortfolio.getStocks().isEmpty() && !bestFitPortfolio.getWeights().isEmpty()) {
+            for (int i = 0; i < bestFitPortfolio.getStocks().size(); i++) {
+                double stockWeight = bestFitPortfolio.getWeights().get(i);
+                double stockValue = bestFitPortfolio.getStocks().get(i).getLatestPrice();
                 int stockQuantity = (int) ((totalEquity * stockWeight) / stockValue);
                 stockQuantities.add(stockQuantity);
             }
@@ -61,7 +62,7 @@ public class FXMLController implements Initializable {
             return stockQuantities;
             }
     
-    static Portfolio bestFitPortfolio(List<Portfolio> portfolios){
+    static void setBestFitPortfolio(List<Portfolio> portfolios){
         switch(userRiskTolerance){
         
             case "conservative": {
@@ -78,7 +79,7 @@ public class FXMLController implements Initializable {
                         }
                     }
 
-                    return smallestRiskPortfolio;
+                    bestFitPortfolio = smallestRiskPortfolio;
                 
             }}
             case "aggressive": {
@@ -93,10 +94,10 @@ public class FXMLController implements Initializable {
                     }
                 }
 
-                return highestReturnsPortfolio;
+                bestFitPortfolio = highestReturnsPortfolio;
             }
             default:{
-                return new Portfolio();
+              
             }
         }
     }
@@ -169,13 +170,13 @@ public class FXMLController implements Initializable {
     void UP(ActionEvent event) {
         if (areAllSecuritiesSelected()) {
     // Get the best-fit portfolio
-    Portfolio bestFit = bestFitPortfolio(listOfPortfolios);
+       
 
     // Update the text fields with the best-fit portfolio information
-    if (bestFit != null && bestFit.getStocks() != null && bestFit.getStocks().size() >= 3) {
-        Txt1.setText(String.valueOf(bestFit.getStocks().get(0).getLatestPrice()));
-        Txt2.setText(String.valueOf(bestFit.getStocks().get(1).getLatestPrice()));
-        Txt3.setText(String.valueOf(bestFit.getStocks().get(2).getLatestPrice()));
+    if (bestFitPortfolio != null && bestFitPortfolio.getStocks() != null && bestFitPortfolio.getStocks().size() >= 3) {
+        Txt1.setText(String.valueOf(bestFitPortfolio.getStocks().get(0).getLatestPrice()));
+        Txt2.setText(String.valueOf(bestFitPortfolio.getStocks().get(1).getLatestPrice()));
+        Txt3.setText(String.valueOf(bestFitPortfolio.getStocks().get(2).getLatestPrice()));
         System.out.println("Portfolio updated successfully!");
     }
 }
