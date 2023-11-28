@@ -9,6 +9,7 @@
  */
 public class Investor {
     private String name;
+    private int age;
     private double equity;
     private String riskTolerance; //riskTolerance can be conservative or aggressive
     
