@@ -36,7 +36,7 @@ import javafx.scene.shape.QuadCurve;
  */
 public class FXMLController implements Initializable {
     IEXCloudApi api = new IEXCloudApi();
-    static String userRiskToleranc  ; //Each time the updateInvestorProfile is clicked, this should update to it.
+    static String userRiskTolerance  ; //Each time the updateInvestorProfile is clicked, this should update to it.
     static double totalEquity; //
     static List<Integer> calculateStockQuantities(){
          List<Integer> stockQuantities = new ArrayList<>();
@@ -364,9 +364,9 @@ public class FXMLController implements Initializable {
         Double selectedValue = CBR.getValue();
         if (selectedValue != null) {
             if (selectedValue == 100.0 || selectedValue == 200.0 || selectedValue == 300.0) {
-                userRiskToleranc = "conservative";
+                userRiskTolerance = "conservative";
             } else if (selectedValue == 500.0 || selectedValue == 700.0 || selectedValue == 1000.0) {
-                userRiskToleranc = "aggressive";
+                userRiskTolerance = "aggressive";
             } else {
                 // Handle other cases if needed
             }
