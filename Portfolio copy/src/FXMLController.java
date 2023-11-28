@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
 
+
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,38 +38,49 @@ import javafx.scene.shape.QuadCurve;
 public class FXMLController implements Initializable {
     IEXCloudApi api = new IEXCloudApi();
     static String userRiskTolerance  ; //Each time the updateInvestorProfile is clicked, this should update to it.
-    static double totalEquity; //
+    static double totalEquity; 
+    
     static List<Integer> calculateStockQuantities(){
          List<Integer> stockQuantities = new ArrayList<>();
-          
-        // Calculate the number of stocks for each stock based on the weights
-        for (int i = 0; i < bestFitPortfolio(listOfPortfolios).getStocks().size(); i++) {
-            double stockWeight = bestFitPortfolio(listOfPortfolios).getWeights().get(i);
-            double stockValue = bestFitPortfolio(listOfPortfolios).getStocks().get(i).getLatestPrice();
-            int stockQuantity = (int) ((totalEquity*stockWeight)/stockValue);
-            stockQuantities.add(stockQuantity);
-        }
+       Portfolio bestFit = bestFitPortfolio(listOfPortfolios);
 
-        return stockQuantities;   
+if (bestFit != null && !bestFit.getStocks().isEmpty() && !bestFit.getWeights().isEmpty()) {
+    for (int i = 0; i < bestFit.getStocks().size(); i++) {
+        double stockWeight = bestFit.getWeights().get(i);
+        double stockValue = bestFit.getStocks().get(i).getLatestPrice();
+        int stockQuantity = (int) ((totalEquity * stockWeight) / stockValue);
+        stockQuantities.add(stockQuantity);
+    }
+} else {
+    // Handle the case where the list of stocks or weights is empty
+    System.out.println("List of stocks or weights is empty");
+}
+    return stockQuantities;
     }
     
     static Portfolio bestFitPortfolio(List<Portfolio> portfolios){
         switch(userRiskTolerance){
         
             case "conservative": {
-                
-                Portfolio smallestRiskPortfolio = portfolios.get(0); // Initialize with the first portfolio
+                if (!portfolios.isEmpty()) {
+    Portfolio smallestRiskPortfolio = portfolios.get(0);
 
-                // Iterate through the rest of the portfolios
-                for (int i = 1; i < portfolios.size(); i++) {
-                    Portfolio currentPortfolio = portfolios.get(i);
+    // Iterate through the rest of the portfolios
+    for (int i = 1; i < portfolios.size(); i++) {
+        Portfolio currentPortfolio = portfolios.get(i);
 
-                    // Compare the risk of the current portfolio with the smallestRiskPortfolio
-                    if (currentPortfolio.getPortfolioRisk() < smallestRiskPortfolio.getPortfolioRisk()) {
-                        smallestRiskPortfolio = currentPortfolio; // Update if the current portfolio has smaller risk
-                    }
-                }
-                return smallestRiskPortfolio;
+        // Compare the risk of the current portfolio with the smallestRiskPortfolio
+        if (currentPortfolio.getPortfolioRisk() < smallestRiskPortfolio.getPortfolioRisk()) {
+            smallestRiskPortfolio = currentPortfolio; // Update if the current portfolio has smaller risk
+        }
+    }
+
+    return smallestRiskPortfolio;
+} else {
+    // Handle the case where the list of portfolios is empty
+   
+    return new Portfolio(); // or null, depending on your logic
+}
             }
             case "aggressive": {
                 Portfolio highestReturnsPortfolio = portfolios.get(0);
@@ -98,7 +110,7 @@ public class FXMLController implements Initializable {
     
     @FXML
     void SymbolName(KeyEvent event) {
-       
+       checkAndCreatePortfolios();
         if (event.getCode() == KeyCode.ENTER) {
             String stockSymbol = BarSearch.getText().toUpperCase();
 
@@ -106,18 +118,18 @@ public class FXMLController implements Initializable {
                 StockQuote stockQuote = getStockInfoBySymbol(stockSymbol);
 
                 if (sec1.getText().isEmpty()) {
-                    stocksSelected.set(0, stockQuote);
+                    stocksSelected.add(0, stockQuote);
                     sec1.setText(stockQuote.getSymbol());
                     St1.setText(stockQuote.getSymbol());
                 }
                 else if (sec2.getText().isEmpty() && !stockSymbol.equals(sec1.getText())) {
-                    stocksSelected.set(1, stockQuote);
+                    stocksSelected.add(1, stockQuote);
                     sec2.setText(stockQuote.getSymbol());
                     St2.setText(stockQuote.getSymbol());
 
                 } 
                 else if (sec3.getText().isEmpty() && !stockSymbol.equals(sec1.getText()) && !stockSymbol.equals(sec2.getText())) {
-                    stocksSelected.set(2, stockQuote);
+                    stocksSelected.add(2, stockQuote);
                     sec3.setText(stockQuote.getSymbol());
                     St3.setText(stockQuote.getSymbol());
                 }
@@ -141,7 +153,7 @@ public class FXMLController implements Initializable {
         return stocksSelected.size() == 3 && stocksSelected.get(0) != null && stocksSelected.get(1) != null && stocksSelected.get(2) != null;
     }
 
-    private void createPortfolios() {
+    public static void createPortfolios() {
        // Clear everything that's in the list of portfolio options as we're creating new options.
         for (int i = 0; i < 20; i++) {
             listOfPortfolios.add(new Portfolio(new ArrayList<>(stocksSelected), weights.get(i)));
@@ -158,18 +170,17 @@ public class FXMLController implements Initializable {
     @FXML
     void UP(ActionEvent event) {
         if (areAllSecuritiesSelected()) {
-            // Get the best-fit portfolio
-            Portfolio bestFit = bestFitPortfolio(listOfPortfolios);
+    // Get the best-fit portfolio
+    Portfolio bestFit = bestFitPortfolio(listOfPortfolios);
 
-            // Update the text fields with the best-fit portfolio information
-            if (bestFit != null && bestFit.getStocks().size() >= 3) {
-                Txt1.setText(String.valueOf(bestFit.getStocks().get(0).getLatestPrice()));
-                Txt2.setText(String.valueOf(bestFit.getStocks().get(1).getLatestPrice()));
-                Txt3.setText(String.valueOf(bestFit.getStocks().get(2).getLatestPrice()));
-
-
-            }
-        }
+    // Update the text fields with the best-fit portfolio information
+    if (bestFit != null && bestFit.getStocks() != null && bestFit.getStocks().size() >= 3) {
+        Txt1.setText(String.valueOf(bestFit.getStocks().get(0).getLatestPrice()));
+        Txt2.setText(String.valueOf(bestFit.getStocks().get(1).getLatestPrice()));
+        Txt3.setText(String.valueOf(bestFit.getStocks().get(2).getLatestPrice()));
+        System.out.println("Portfolio updated successfully!");
+    }
+}
     }
     
     @FXML
@@ -235,7 +246,7 @@ public class FXMLController implements Initializable {
   
     
     @FXML
-    private ChoiceBox<Double> CBR;
+    private ChoiceBox<String> CBR;
           
     
     @FXML
@@ -353,27 +364,15 @@ public class FXMLController implements Initializable {
         weights.add(List.of(0.3, 0.3, 0.35));
         
          // Add values to the ChoiceBox
-// Add event handler for ChoiceBox selection
-   // Add values to the ChoiceBox
-    ObservableList<Double> CBRValues = FXCollections.observableArrayList(100.0, 200.0, 300.0, 500.0, 700.0, 1000.0);
-    CBR.setItems(CBRValues);
+// Add values to the ChoiceBox
+    ObservableList<String> riskOptions = FXCollections.observableArrayList("conservative", "aggressive");
+        CBR.setItems(riskOptions);
 
-    // Add event handler for ChoiceBox selection
-    CBR.setOnAction((event) -> {
-        // Update userRiskTolerance based on selected value
-        Double selectedValue = CBR.getValue();
-        if (selectedValue != null) {
-            if (selectedValue == 100.0 || selectedValue == 200.0 || selectedValue == 300.0) {
-                userRiskTolerance = "conservative";
-            } else if (selectedValue == 500.0 || selectedValue == 700.0 || selectedValue == 1000.0) {
-                userRiskTolerance = "aggressive";
-            } else {
-                // Handle other cases if needed
-            }
-
-            System.out.println("User Risk Tolerance: " + userRiskTolerance);
-        }
-    });
+        // Add event handler for ChoiceBox selection
+        CBR.setOnAction(event -> userRiskTolerance = CBR.getValue().toLowerCase());
+    
+}
+}
 
     }
     
