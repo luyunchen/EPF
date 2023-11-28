@@ -41,22 +41,22 @@ public class FXMLController implements Initializable {
     static double totalEquity; 
     
     static List<Integer> calculateStockQuantities(){
-         List<Integer> stockQuantities = new ArrayList<>();
-       Portfolio bestFit = bestFitPortfolio(listOfPortfolios);
+        List<Integer> stockQuantities = new ArrayList<>();
+        Portfolio bestFit = bestFitPortfolio(listOfPortfolios);
 
-if (bestFit != null && !bestFit.getStocks().isEmpty() && !bestFit.getWeights().isEmpty()) {
-    for (int i = 0; i < bestFit.getStocks().size(); i++) {
-        double stockWeight = bestFit.getWeights().get(i);
-        double stockValue = bestFit.getStocks().get(i).getLatestPrice();
-        int stockQuantity = (int) ((totalEquity * stockWeight) / stockValue);
-        stockQuantities.add(stockQuantity);
-    }
-} else {
-    // Handle the case where the list of stocks or weights is empty
-    System.out.println("List of stocks or weights is empty");
-}
-    return stockQuantities;
-    }
+        if (bestFit != null && !bestFit.getStocks().isEmpty() && !bestFit.getWeights().isEmpty()) {
+            for (int i = 0; i < bestFit.getStocks().size(); i++) {
+                double stockWeight = bestFit.getWeights().get(i);
+                double stockValue = bestFit.getStocks().get(i).getLatestPrice();
+                int stockQuantity = (int) ((totalEquity * stockWeight) / stockValue);
+                stockQuantities.add(stockQuantity);
+            }
+        } else {
+            // Handle the case where the list of stocks or weights is empty
+            System.out.println("List of stocks or weights is empty");
+        }
+            return stockQuantities;
+            }
     
     static Portfolio bestFitPortfolio(List<Portfolio> portfolios){
         switch(userRiskTolerance){
@@ -336,7 +336,7 @@ if (bestFit != null && !bestFit.getStocks().isEmpty() && !bestFit.getWeights().i
     private Button generateGraph;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-         listOfPortfolios = new ArrayList<>();
+         
 
     weights = new ArrayList<>();
         weights.add(List.of(0.25, 0.3, 0.35)); //Add random diversifications to the List of weights
