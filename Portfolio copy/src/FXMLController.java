@@ -53,7 +53,7 @@ public class FXMLController implements Initializable {
     }
     
     static Portfolio bestFitPortfolio(List<Portfolio> portfolios){
-        switch(userRiskToleranc){
+        switch(userRiskTolerance){
         
             case "conservative": {
                 
@@ -371,7 +371,7 @@ public class FXMLController implements Initializable {
                 // Handle other cases if needed
             }
 
-            System.out.println("User Risk Tolerance: " + userRiskToleranc);
+            System.out.println("User Risk Tolerance: " + userRiskTolerance);
         }
     });
 
