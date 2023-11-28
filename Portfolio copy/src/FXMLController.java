@@ -221,7 +221,16 @@ public class FXMLController implements Initializable {
             return null;
         }
     }
-  
+      @FXML
+    void ChangeAsset(KeyEvent event){
+    if (event.getCode() == KeyCode.ENTER){
+        
+        totalEquity = Double.parseDouble(Asset.getText());
+        System.out.println(totalEquity);
+        
+        
+    }
+    }
     
     @FXML
     private ChoiceBox<String> CBR;
