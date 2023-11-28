@@ -49,9 +49,8 @@ public class FXMLController implements Initializable {
     
     static List<Integer> calculateStockQuantities(){
         List<Integer> stockQuantities = new ArrayList<>();
-        setBestFitPortfolio(listOfPortfolios);
-
         if (bestFitPortfolio != null && !bestFitPortfolio.getStocks().isEmpty() && !bestFitPortfolio.getWeights().isEmpty()) {
+            
             for (int i = 0; i < bestFitPortfolio.getStocks().size(); i++) {
                 double stockWeight = bestFitPortfolio.getWeights().get(i);
                 double stockValue = bestFitPortfolio.getStocks().get(i).getLatestPrice();
@@ -173,13 +172,15 @@ public class FXMLController implements Initializable {
     void UP(ActionEvent event) {
         if (areAllSecuritiesSelected()) {
     // Get the best-fit portfolio
+       createPortfolios();
+       setBestFitPortfolio(listOfPortfolios);
        
 
     // Update the text fields with the best-fit portfolio information
     if (bestFitPortfolio != null && bestFitPortfolio.getStocks() != null && bestFitPortfolio.getStocks().size() >= 3) {
-        Txt1.setText(String.valueOf(bestFitPortfolio.getStocks().get(0).getLatestPrice()));
-        Txt2.setText(String.valueOf(bestFitPortfolio.getStocks().get(1).getLatestPrice()));
-        Txt3.setText(String.valueOf(bestFitPortfolio.getStocks().get(2).getLatestPrice()));
+        Txt1.setText(String.valueOf(calculateStockQuantities().get(0)));
+        Txt2.setText(String.valueOf(calculateStockQuantities().get(1)));
+        Txt3.setText(String.valueOf(calculateStockQuantities().get(2)));
         System.out.println("Portfolio updated successfully!");
     }
 }
