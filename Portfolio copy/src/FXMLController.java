@@ -18,17 +18,16 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.ScatterChart;
 import javafx.scene.chart.XYChart;
-
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.input.InputMethodEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.QuadCurve;
@@ -42,9 +41,9 @@ public class FXMLController implements Initializable {
     IEXCloudApi api = new IEXCloudApi();
     static String userRiskTolerance  ; //Each time the updateInvestorProfile is clicked, this should update to it.
     static double totalEquity;
-    static List<List<Double>> weights = new ArrayList<>(20); //These are some random weights of the stocks for each portfolio. There's gonna be 20 portfolio, meaning 20 data points. 
+    static List<List<Double>> weights = new ArrayList<>(50); //These are some random weights of the stocks for each portfolio. There's gonna be 20 portfolio, meaning 20 data points. 
     static List<StockQuote> stocksSelected = new ArrayList<>(3); //Empty list of StockQuotes. When user changes the first security, call setOnAction -> stocksSelected.set(0,*stockquote object*) and so on
-    static List<Portfolio> listOfPortfolios = new ArrayList<>(20);
+    static List<Portfolio> listOfPortfolios = new ArrayList<>(50);
     static Portfolio bestFitPortfolio;
     
     static List<Integer> calculateStockQuantities(){
@@ -117,7 +116,7 @@ public class FXMLController implements Initializable {
 
             if (!stockSymbol.isEmpty()) {
                 StockQuote stockQuote = getStockInfoBySymbol(stockSymbol);
-
+                
                 if (sec1.getText().isEmpty()) {
                     stocksSelected.add(0, stockQuote);
                     sec1.setText(stockQuote.getSymbol());
@@ -140,6 +139,14 @@ public class FXMLController implements Initializable {
                 System.out.println("Latest Price: " + stockQuote.getLatestPrice());
                 System.out.println("Company Name: " + stockQuote.getFullName());
                 System.out.println("Beta: " + stockQuote.getBeta());
+                Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setTitle("Success");
+                alert.setHeaderText("Stock Added Succesfully");
+                alert.setContentText(stockQuote.getFullName() +" was added sucessfully.");
+                alert.show();
+
+                
+            
             } else {
                 System.out.println("Failed to parse stock information.");
             }
@@ -181,8 +188,6 @@ public class FXMLController implements Initializable {
         Txt1.setText(String.valueOf(calculateStockQuantities().get(0)));
         Txt2.setText(String.valueOf(calculateStockQuantities().get(1)));
         Txt3.setText(String.valueOf(calculateStockQuantities().get(2)));
-        System.out.println(userRiskTolerance);
-        System.out.println(Txt1.getText());
         System.out.println("Portfolio updated successfully!");
     }
 }
@@ -231,6 +236,19 @@ public class FXMLController implements Initializable {
         
     
     }
+    @FXML
+    void Clear1(ActionEvent event){
+        sec1.setText("");
+        
+    }
+    @FXML
+    void Clear2(ActionEvent event){
+        sec2.setText("");
+    }
+    @FXML
+    void Clear3(ActionEvent event){
+        sec3.setText("");
+    }
     
     @FXML
     private ChoiceBox<String> CBR;
@@ -266,7 +284,12 @@ public class FXMLController implements Initializable {
     @FXML
     private Label LabelRisk;
 
-
+    @FXML
+    private Button clr1;
+    @FXML
+    private Button clr2;
+    @FXML
+    private Button clr3;
     @FXML
     private Label LabelAge;
 
@@ -360,6 +383,35 @@ public class FXMLController implements Initializable {
         weights.add(List.of(0.1, 0.4, 0.5));
         weights.add(List.of(0.2, 0.5, 0.3));
         weights.add(List.of(0.3, 0.3, 0.35));
+        weights.add(List.of(0.12, 0.65, 0.23));
+        weights.add(List.of(0.28, 0.08, 0.64));
+        weights.add(List.of(0.42, 0.17, 0.41));
+        weights.add(List.of(0.33, 0.45, 0.22));
+        weights.add(List.of(0.18, 0.39, 0.43));
+        weights.add(List.of(0.49, 0.12, 0.39));
+        weights.add(List.of(0.31, 0.47, 0.22));
+        weights.add(List.of(0.26, 0.36, 0.38));
+        weights.add(List.of(0.13, 0.34, 0.53));
+        weights.add(List.of(0.38, 0.21, 0.41));
+        weights.add(List.of(0.23, 0.28, 0.49));
+        weights.add(List.of(0.34, 0.19, 0.47));
+        weights.add(List.of(0.27, 0.38, 0.35));
+        weights.add(List.of(0.16, 0.31, 0.53));
+        weights.add(List.of(0.46, 0.08, 0.46));
+        weights.add(List.of(0.28, 0.41, 0.31));
+        weights.add(List.of(0.36, 0.09, 0.55));
+        weights.add(List.of(0.14, 0.45, 0.41));
+        weights.add(List.of(0.25, 0.58, 0.17));
+        weights.add(List.of(0.32, 0.28, 0.40));
+        weights.add(List.of(0.21, 0.14, 0.65));
+        weights.add(List.of(0.37, 0.26, 0.37));
+        weights.add(List.of(0.29, 0.52, 0.19));
+        weights.add(List.of(0.43, 0.10, 0.47));
+        weights.add(List.of(0.22, 0.43, 0.35));
+        weights.add(List.of(0.18, 0.61, 0.21));
+        weights.add(List.of(0.35, 0.33, 0.32));
+        weights.add(List.of(0.24, 0.17, 0.59));
+        weights.add(List.of(0.30, 0.25, 0.45));
         
          // Add values to the ChoiceBox
 // Add values to the ChoiceBox
