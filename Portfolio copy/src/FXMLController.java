@@ -280,7 +280,7 @@ void generateGraphOnAction(ActionEvent event) {
         System.out.println("Adding data to chart - Risk: " + risk + ", Returns: " + returns);
 
         // Add data point to the series
-        XYChart.Data<String, Double> dataPoint = new XYChart.Data<>(String.valueOf(i), returns);
+        XYChart.Data<String, Double> dataPoint = new XYChart.Data<>(String.valueOf(risk), returns);
 
         series.getData().add(dataPoint);
         
