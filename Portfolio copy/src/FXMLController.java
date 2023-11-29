@@ -208,7 +208,7 @@ void RST(ActionEvent event){
     TextFieldAge.clear();
     TextFieldName.clear();
     BarSearch.clear();
-    CBR.getSelectionModel().clearSelection();
+
 
     // Clear the list of selected stocks
     stocksSelected.clear();
@@ -317,9 +317,19 @@ void generateGraphOnAction(ActionEvent event) {
     
     }
     @FXML
-    void Clear1(ActionEvent event){
+    void Clear(ActionEvent event){
     sec1.clear();
+    
     }
+    @FXML
+    void Clear2(ActionEvent event){
+    sec2.clear();
+    }
+    @FXML
+    void Clear3(ActionEvent event){
+    sec3.clear();
+    }
+    
     @FXML
     private ChoiceBox<String> CBR;
           
@@ -369,17 +379,7 @@ void generateGraphOnAction(ActionEvent event) {
     private Label LabelAsset;
     @FXML
     private TextField Asset;
-    @FXML
-    private CheckBox CB1;
 
-    @FXML
-    private CheckBox CB2;
-
-    @FXML
-    private CheckBox CB3;
-
-    @FXML
-    private CheckBox CB4;
 
     @FXML
     private Button Refresh;
