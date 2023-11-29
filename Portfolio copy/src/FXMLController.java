@@ -15,19 +15,24 @@ import javafx.fxml.Initializable;
 import javafx.fxml.FXML;
 import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.ScatterChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
+import javafx.scene.input.InputMethodEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.QuadCurve;
@@ -38,7 +43,7 @@ import javafx.scene.shape.QuadCurve;
  * @author sujansiva
  */
 public class FXMLController implements Initializable {
-    IEXCloudApi api = new IEXCloudApi();
+   IEXCloudApi api = new IEXCloudApi();
     static String userRiskTolerance  ; //Each time the updateInvestorProfile is clicked, this should update to it.
     static double totalEquity;
     static List<List<Double>> weights = new ArrayList<>(50); //These are some random weights of the stocks for each portfolio. There's gonna be 20 portfolio, meaning 20 data points. 
@@ -108,37 +113,45 @@ public class FXMLController implements Initializable {
     @FXML
     private TextField sec1;
     
-    @FXML
-    void SymbolName(KeyEvent event) {
-       checkAndCreatePortfolios();
-        if (event.getCode() == KeyCode.ENTER) {
-            String stockSymbol = BarSearch.getText().toUpperCase();
+@FXML
+void SymbolName(KeyEvent event) {
+    checkAndCreatePortfolios();
+    
+    if (event.getCode() == KeyCode.ENTER) {
+        String stockSymbol = BarSearch.getText().toUpperCase();
 
-            if (!stockSymbol.isEmpty()) {
-                StockQuote stockQuote = getStockInfoBySymbol(stockSymbol);
-                
+        if (!stockSymbol.isEmpty()) {
+            StockQuote stockQuote = getStockInfoBySymbol(stockSymbol);
+            if (stockQuote != null) {
+                // Check if Beta is null
+                if (stockQuote.getBeta() == null) {
+                    showWarningAlert("Beta is null", "Please try another stock.");
+                    return; // Exit the method to prevent further processing
+                }
+
+                // Check if the new stock symbol is the same as any of the existing symbols
+                if (stockSymbol.equals(sec1.getText()) || stockSymbol.equals(sec2.getText()) || stockSymbol.equals(sec3.getText())) {
+                    showWarningAlert("Duplicate Stock Symbol", "Stock symbol already exists in the list.");
+                    return; // Exit the method to prevent further processing
+                }
+
+                // Update sec1, sec2, sec3 based on availability
                 if (sec1.getText().isEmpty()) {
-                    stocksSelected.add(0, stockQuote);
+                    stocksSelected.add(stockQuote);
                     sec1.setText(stockQuote.getSymbol());
                     St1.setText(stockQuote.getSymbol());
-                }
-                else if (sec2.getText().isEmpty() && !stockSymbol.equals(sec1.getText())) {
+                } else if (sec2.getText().isEmpty() && !stockSymbol.equals(sec1.getText())) {
                     stocksSelected.add(1, stockQuote);
                     sec2.setText(stockQuote.getSymbol());
                     St2.setText(stockQuote.getSymbol());
-
-                } 
-                else if (sec3.getText().isEmpty() && !stockSymbol.equals(sec1.getText()) && !stockSymbol.equals(sec2.getText())) {
-                    stocksSelected.add(2, stockQuote);
+                } else if (sec3.getText().isEmpty() && !stockSymbol.equals(sec1.getText())
+                        && !stockSymbol.equals(sec2.getText())) {
+                    stocksSelected.add(0, stockQuote);
                     sec3.setText(stockQuote.getSymbol());
                     St3.setText(stockQuote.getSymbol());
-                }
-  // Display the stock information
-            if (stockQuote != null) {
-                System.out.println("Symbol: " + stockQuote.getSymbol());
-                System.out.println("Latest Price: " + stockQuote.getLatestPrice());
-                System.out.println("Company Name: " + stockQuote.getFullName());
-                System.out.println("Beta: " + stockQuote.getBeta());
+                } 
+                if (stockQuote != null) {
+                displayStockInformation(stockQuote);   
                 Alert alert = new Alert(AlertType.INFORMATION);
                 alert.setTitle("Success");
                 alert.setHeaderText("Stock Added Succesfully");
@@ -147,15 +160,69 @@ public class FXMLController implements Initializable {
 
                 
             
+            } 
+
+             
             } else {
-                System.out.println("Failed to parse stock information.");
+                showWarningAlert("Invalid Stock Symbol", "Please enter a valid stock symbol.");
             }
-        } 
-        else {
+        } else {
             System.out.println("Failed to fetch stock information.");
-        }       
-        }            
+        }
     }
+}
+
+// Helper method to display stock information
+private void displayStockInformation(StockQuote stockQuote) {
+    System.out.println("Symbol: " + stockQuote.getSymbol());
+    System.out.println("Latest Price: " + stockQuote.getLatestPrice());
+    System.out.println("Company Name: " + stockQuote.getFullName());
+    System.out.println("Beta: " + stockQuote.getBeta());
+}
+
+// Helper method to show a warning alert
+private void showWarningAlert(String title, String content) {
+    Alert alert = new Alert(Alert.AlertType.WARNING);
+    alert.setTitle(title);
+    alert.setHeaderText(null);
+    alert.setContentText(content);
+    alert.showAndWait();
+}
+@FXML
+void RST(ActionEvent event){
+    // Clear securities
+    sec1.clear();
+    sec2.clear();
+    sec3.clear();
+
+    // Clear labels and text fields
+    St1.setText("");
+    St2.setText("");
+    St3.setText("");
+    Txt1.clear();
+    Txt2.clear();
+    Txt3.clear();
+
+    // Clear other fields
+    Asset.clear();
+    TextFieldAge.clear();
+    TextFieldName.clear();
+    BarSearch.clear();
+    CBR.getSelectionModel().clearSelection();
+
+    // Clear the list of selected stocks
+    stocksSelected.clear();
+
+    // Clear the list of portfolios
+    listOfPortfolios.clear();
+
+    // Clear the best fit portfolio
+    bestFitPortfolio = null;
+
+    // Clear the chart data
+    Chart.getData().clear();
+    
+}
     
     private boolean areAllSecuritiesSelected() {
         return stocksSelected.size() == 3 && stocksSelected.get(0) != null && stocksSelected.get(1) != null && stocksSelected.get(2) != null;
@@ -188,29 +255,42 @@ public class FXMLController implements Initializable {
         Txt1.setText(String.valueOf(calculateStockQuantities().get(0)));
         Txt2.setText(String.valueOf(calculateStockQuantities().get(1)));
         Txt3.setText(String.valueOf(calculateStockQuantities().get(2)));
+        
         System.out.println("Portfolio updated successfully!");
     }
 }
     }
     
-  @FXML
-    void generateGraphOnAction(ActionEvent event) {
-        checkAndCreatePortfolios();
+@FXML
+void generateGraphOnAction(ActionEvent event) {
+    checkAndCreatePortfolios();
 
+    // Clear existing data on the chart
+    Chart.getData().clear();
 
+    // Create a single series for all data points
+    XYChart.Series<String, Double> series = new XYChart.Series<>();
 
-    // Add data to the chart
-    for (Portfolio portfolio : listOfPortfolios) {
+    // Add data to the series
+    for (int i = 0; i < listOfPortfolios.size(); i++) {
+        Portfolio portfolio = listOfPortfolios.get(i);
         double risk = portfolio.getPortfolioRisk();
         double returns = portfolio.getPortfolioReturn();
-        
+
         System.out.println("Adding data to chart - Risk: " + risk + ", Returns: " + returns);
 
-        XYChart.Series series = new XYChart.Series();
-        series.getData().add(new XYChart.Data<>(risk, returns));
-        Chart.getData().add(series);
+        // Add data point to the series
+        XYChart.Data<String, Double> dataPoint = new XYChart.Data<>(String.valueOf(i), returns);
+
+        series.getData().add(dataPoint);
+        
+
     }
-    }
+
+    // Add the series to the chart
+    Chart.getData().add(series);
+}
+
     
 
     public StockQuote getStockInfoBySymbol(String stockSymbol) {
@@ -238,18 +318,8 @@ public class FXMLController implements Initializable {
     }
     @FXML
     void Clear1(ActionEvent event){
-        sec1.setText("");
-        
+    sec1.clear();
     }
-    @FXML
-    void Clear2(ActionEvent event){
-        sec2.setText("");
-    }
-    @FXML
-    void Clear3(ActionEvent event){
-        sec3.setText("");
-    }
-    
     @FXML
     private ChoiceBox<String> CBR;
           
@@ -284,12 +354,7 @@ public class FXMLController implements Initializable {
     @FXML
     private Label LabelRisk;
 
-    @FXML
-    private Button clr1;
-    @FXML
-    private Button clr2;
-    @FXML
-    private Button clr3;
+
     @FXML
     private Label LabelAge;
 
@@ -350,7 +415,7 @@ public class FXMLController implements Initializable {
     private Button generateGraph;
     
     @FXML
-    private ScatterChart<Double,Double>Chart;
+    private LineChart<String,Double>Chart;
     
     @FXML
     private CategoryAxis Xaxis;
@@ -358,6 +423,8 @@ public class FXMLController implements Initializable {
     @FXML
     private NumberAxis Yaxis;
     
+    @FXML
+    private Button Restart;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
          
@@ -419,13 +486,8 @@ public class FXMLController implements Initializable {
         CBR.setItems(riskOptions);
 
         // Add event handler for ChoiceBox selection
-        CBR.setOnAction(event -> userRiskTolerance = CBR.getValue().toLowerCase());
-    
-    Yaxis.setAutoRanging(false); // Disable auto-ranging
-    Yaxis.setLowerBound(1);       // Set the lower bound of the y-axis
-    Yaxis.setUpperBound(5);       // Set the upper bound of the y-axis
-    Yaxis.setTickUnit(0.5); 
-    
+        CBR.setOnAction(event -> userRiskTolerance = CBR.getValue());
+
 
         
 }
