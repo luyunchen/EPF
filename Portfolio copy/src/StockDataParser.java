@@ -27,6 +27,7 @@ public class StockDataParser {
       
         // Try extracting beta again
         if (jsonObject.has("beta") && !jsonObject.isNull("beta")) {
+            //stockQuote.setBeta(getDoubleFromJsonObject(jsonObject,"beta"));
             stockQuote.setBeta(jsonObject.getDouble("beta"));
         } else {
             System.out.println("Beta field not found in JSON response or is null.");

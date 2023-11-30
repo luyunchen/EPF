@@ -27,10 +27,12 @@ public class Portfolio_main extends Application {
 
         // Set the size of the scene to match the screen resolution
         primaryStage.setScene(scene);
+        primaryStage.setTitle("Efficient Portfolio Frontier");
         primaryStage.setX(bounds.getMinX());
         primaryStage.setY(bounds.getMinY());
         primaryStage.setWidth(bounds.getWidth());
         primaryStage.setHeight(bounds.getHeight());
+        primaryStage.setFullScreen(true);
         
         primaryStage.setScene(scene);
         primaryStage.show();

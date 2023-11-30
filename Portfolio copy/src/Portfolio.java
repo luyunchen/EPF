@@ -66,17 +66,42 @@ public class Portfolio { //Multiple portfolio objects will be used. Each portfol
         for (int i = 0; i < stocks.size(); i++) {
             portfolioReturn += weights.get(i) * stocks.get(i).calculateExpectedSecurityReturn();
         }
-        return portfolioReturn;
+        return ((portfolioReturn-1.00)*100);
     }
 
     public double calculatePortfolioRisk() {
-        
-        // For simplicity, let's assume a linear relationship between the cofactors of risk. Usually, a covariance matrix is used.
-        double portfolioRisk = 0.0; 
-        for (int i = 0; i < stocks.size(); i++) {
-            portfolioRisk += weights.get(i) * stocks.get(i).getBeta(); 
+        int numStocks = weights.size();
+        double[][] covarianceMatrix = calculateCovarianceMatrix();
+
+        // Using the matrix to calculate portfolio variance
+        double portfolioVariance = 0.0;
+        for (int i = 0; i < numStocks; i++) {
+            for (int j = 0; j < numStocks; j++) {
+                portfolioVariance += weights.get(i) * weights.get(j) * covarianceMatrix[i][j];
+            }
         }
-        return portfolioRisk;   //For each portfolio, we can obtain the total covariance of the portfolio with the market by adding the beta weighted.
+
+        // Calculate portfolio risk (standard deviation)
+        return Math.sqrt((portfolioVariance-1.00)*100);
+    }
+
+    private double[][] calculateCovarianceMatrix() { //Create a matrix/array of size 3x3
+        int numStocks = stocks.size();
+        double[][] covarianceMatrix = new double[numStocks][numStocks];
+
+        for (int i = 0; i < numStocks; i++) {
+            for (int j = 0; j < numStocks; j++) {
+                double covariance = calculateCovariance(stocks.get(i).getBeta(), stocks.get(j).getBeta());
+                covarianceMatrix[i][j] = covariance;
+            }
+        }
+
+        return covarianceMatrix;
+    }
+
+    private double calculateCovariance(double beta1, double beta2) {
+        //Assuming that beta is sole indicator of covariance
+        return beta1 * beta2;
     }
     
     

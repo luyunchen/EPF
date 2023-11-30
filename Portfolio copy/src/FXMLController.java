@@ -46,7 +46,7 @@ public class FXMLController implements Initializable {
    IEXCloudApi api = new IEXCloudApi();
     static String userRiskTolerance  ; //Each time the updateInvestorProfile is clicked, this should update to it.
     static double totalEquity;
-    static List<List<Double>> weights = new ArrayList<>(50); //These are some random weights of the stocks for each portfolio. There's gonna be 20 portfolio, meaning 20 data points. 
+    static List<List<Double>> weightsList = new ArrayList<>(50); //These are some random weights of the stocks for each portfolio. There's gonna be 20 portfolio, meaning 20 data points. 
     static List<StockQuote> stocksSelected = new ArrayList<>(3); //Empty list of StockQuotes. When user changes the first security, call setOnAction -> stocksSelected.set(0,*stockquote object*) and so on
     static List<Portfolio> listOfPortfolios = new ArrayList<>(50);
     static Portfolio bestFitPortfolio;
@@ -231,7 +231,7 @@ void RST(ActionEvent event){
     public static void createPortfolios() {
        // Clear everything that's in the list of portfolio options as we're creating new options.
         for (int i = 0; i < 20; i++) {
-            listOfPortfolios.add(new Portfolio(new ArrayList<>(stocksSelected), weights.get(i)));
+            listOfPortfolios.add(new Portfolio(new ArrayList<>(stocksSelected), weightsList.get(i)));
         }
     }
     
@@ -429,56 +429,55 @@ void generateGraphOnAction(ActionEvent event) {
     public void initialize(URL url, ResourceBundle rb) {
          
 
-    weights = new ArrayList<>();
-        weights.add(List.of(0.25, 0.3, 0.35)); //Add random diversifications to the List of weights
-        weights.add(List.of(0.1, 0.5, 0.4));
-        weights.add(List.of(0.2, 0.1, 0.6));
-        weights.add(List.of(0.3, 0.2, 0.4));
-        weights.add(List.of(0.15, 0.4, 0.45));
-        weights.add(List.of(0.4, 0.2, 0.35));
-        weights.add(List.of(0.3, 0.4, 0.2));
-        weights.add(List.of(0.2, 0.3, 0.4));
-        weights.add(List.of(0.1, 0.3, 0.5));
-        weights.add(List.of(0.35, 0.25, 0.4));
-        weights.add(List.of(0.2, 0.25, 0.55));
-        weights.add(List.of(0.3, 0.15, 0.55));
-        weights.add(List.of(0.25, 0.35, 0.4));
-        weights.add(List.of(0.15, 0.3, 0.55));
-        weights.add(List.of(0.4, 0.1, 0.5));
-        weights.add(List.of(0.25, 0.35, 0.4));
-        weights.add(List.of(0.3, 0.1, 0.6));
-        weights.add(List.of(0.1, 0.4, 0.5));
-        weights.add(List.of(0.2, 0.5, 0.3));
-        weights.add(List.of(0.3, 0.3, 0.35));
-        weights.add(List.of(0.12, 0.65, 0.23));
-        weights.add(List.of(0.28, 0.08, 0.64));
-        weights.add(List.of(0.42, 0.17, 0.41));
-        weights.add(List.of(0.33, 0.45, 0.22));
-        weights.add(List.of(0.18, 0.39, 0.43));
-        weights.add(List.of(0.49, 0.12, 0.39));
-        weights.add(List.of(0.31, 0.47, 0.22));
-        weights.add(List.of(0.26, 0.36, 0.38));
-        weights.add(List.of(0.13, 0.34, 0.53));
-        weights.add(List.of(0.38, 0.21, 0.41));
-        weights.add(List.of(0.23, 0.28, 0.49));
-        weights.add(List.of(0.34, 0.19, 0.47));
-        weights.add(List.of(0.27, 0.38, 0.35));
-        weights.add(List.of(0.16, 0.31, 0.53));
-        weights.add(List.of(0.46, 0.08, 0.46));
-        weights.add(List.of(0.28, 0.41, 0.31));
-        weights.add(List.of(0.36, 0.09, 0.55));
-        weights.add(List.of(0.14, 0.45, 0.41));
-        weights.add(List.of(0.25, 0.58, 0.17));
-        weights.add(List.of(0.32, 0.28, 0.40));
-        weights.add(List.of(0.21, 0.14, 0.65));
-        weights.add(List.of(0.37, 0.26, 0.37));
-        weights.add(List.of(0.29, 0.52, 0.19));
-        weights.add(List.of(0.43, 0.10, 0.47));
-        weights.add(List.of(0.22, 0.43, 0.35));
-        weights.add(List.of(0.18, 0.61, 0.21));
-        weights.add(List.of(0.35, 0.33, 0.32));
-        weights.add(List.of(0.24, 0.17, 0.59));
-        weights.add(List.of(0.30, 0.25, 0.45));
+        weightsList.add(List.of(0.25, 0.3, 0.35)); //Add random diversifications to the List of weights
+        weightsList.add(List.of(0.1, 0.5, 0.4));
+        weightsList.add(List.of(0.2, 0.1, 0.6));
+        weightsList.add(List.of(0.3, 0.2, 0.4));
+        weightsList.add(List.of(0.15, 0.4, 0.45));
+        weightsList.add(List.of(0.4, 0.2, 0.35));
+        weightsList.add(List.of(0.3, 0.4, 0.2));
+        weightsList.add(List.of(0.2, 0.3, 0.4));
+        weightsList.add(List.of(0.1, 0.3, 0.5));
+        weightsList.add(List.of(0.35, 0.25, 0.4));
+        weightsList.add(List.of(0.2, 0.25, 0.55));
+        weightsList.add(List.of(0.3, 0.15, 0.55));
+        weightsList.add(List.of(0.25, 0.35, 0.4));
+        weightsList.add(List.of(0.15, 0.3, 0.55));
+        weightsList.add(List.of(0.4, 0.1, 0.5));
+        weightsList.add(List.of(0.25, 0.35, 0.4));
+        weightsList.add(List.of(0.3, 0.1, 0.6));
+        weightsList.add(List.of(0.1, 0.4, 0.5));
+        weightsList.add(List.of(0.2, 0.5, 0.3));
+        weightsList.add(List.of(0.3, 0.3, 0.35));
+        weightsList.add(List.of(0.12, 0.65, 0.23));
+        weightsList.add(List.of(0.28, 0.08, 0.64));
+        weightsList.add(List.of(0.42, 0.17, 0.41));
+        weightsList.add(List.of(0.33, 0.45, 0.22));
+        weightsList.add(List.of(0.18, 0.39, 0.43));
+        weightsList.add(List.of(0.49, 0.12, 0.39));
+        weightsList.add(List.of(0.31, 0.47, 0.22));
+        weightsList.add(List.of(0.26, 0.36, 0.38));
+        weightsList.add(List.of(0.13, 0.34, 0.53));
+        weightsList.add(List.of(0.38, 0.21, 0.41));
+        weightsList.add(List.of(0.23, 0.28, 0.49));
+        weightsList.add(List.of(0.34, 0.19, 0.47));
+        weightsList.add(List.of(0.27, 0.38, 0.35));
+        weightsList.add(List.of(0.16, 0.31, 0.53));
+        weightsList.add(List.of(0.46, 0.08, 0.46));
+        weightsList.add(List.of(0.28, 0.41, 0.31));
+        weightsList.add(List.of(0.36, 0.09, 0.55));
+        weightsList.add(List.of(0.14, 0.45, 0.41));
+        weightsList.add(List.of(0.25, 0.58, 0.17));
+        weightsList.add(List.of(0.32, 0.28, 0.40));
+        weightsList.add(List.of(0.21, 0.14, 0.65));
+        weightsList.add(List.of(0.37, 0.26, 0.37));
+        weightsList.add(List.of(0.29, 0.52, 0.19));
+        weightsList.add(List.of(0.43, 0.10, 0.47));
+        weightsList.add(List.of(0.22, 0.43, 0.35));
+        weightsList.add(List.of(0.18, 0.61, 0.21));
+        weightsList.add(List.of(0.35, 0.33, 0.32));
+        weightsList.add(List.of(0.24, 0.17, 0.59));
+        weightsList.add(List.of(0.30, 0.25, 0.45));
         
          // Add values to the ChoiceBox
 // Add values to the ChoiceBox
