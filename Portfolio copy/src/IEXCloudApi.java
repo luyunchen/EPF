@@ -18,7 +18,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class IEXCloudApi {
-    private static final String API_TOKEN = "pk_c8838e25bb8b434b88be71e22986401a";
+    private static final String API_TOKEN = "pk_573a58e6df004d68a3e3d8a1a44ed9b8";
     private static final String BASE_URL = "https://cloud.iexapis.com/stable/stock/";
 
     public String getCurrentStockInfo(String symbol) {

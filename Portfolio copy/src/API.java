@@ -16,7 +16,7 @@ public class API {
     //The main wont be used. Its only here so that I can test the classes
     public static void main(String[] args) {
         // Replace "AAPL" with the stock symbol you want to test
-        String stockSymbol = "AAPL";
+        String stockSymbol = "SENS";
 
         // Create an instance of IEXCloudApi
         IEXCloudApi api = new IEXCloudApi();
