@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
@@ -106,10 +105,10 @@
       <TextField fx:id="Asset" layoutX="275.0" layoutY="416.0" onKeyReleased="#ChangeAsset" prefHeight="27.0" prefWidth="92.0" />
       <LineChart fx:id="Chart" layoutX="530.0" layoutY="55.0" prefHeight="521.0" prefWidth="590.0">
         <xAxis>
-          <CategoryAxis fx:id="Xaxis" endMargin="1.0" side="BOTTOM" startMargin="0.0" tickLabelGap="10.0" />
+          <NumberAxis fx:id="Xaxis" side="BOTTOM" tickLabelGap="10.0" upperBound="95.0" />
         </xAxis>
         <yAxis>
-          <NumberAxis fx:id="Yaxis" minorTickCount="10" side="LEFT" upperBound="2.0" />
+          <NumberAxis fx:id="Yaxis" minorTickCount="10" side="LEFT" upperBound="95.0" />
         </yAxis>
       </LineChart>
       <Button fx:id="Restart" layoutX="996.0" layoutY="678.0" mnemonicParsing="false" onAction="#RST" prefHeight="29.0" prefWidth="108.0" style="-fx-background-color: #f7ef8a; -fx-background-radius: 15;" text="Restart" />
