@@ -8,18 +8,21 @@
  *
  * @author Eliyahu Cano
  */
+/**
+/**
+ *This class is used purely for testing if the api functions properly
+ */
 public class API {
 
-    /**
-     * @param args the command line arguments
-     */
-    //The main wont be used. Its only here so that I can test the classes
     public static void main(String[] args) {
-        // Replace "AAPL" with the stock symbol you want to test
-        String stockSymbol = "SENS";
+        
+        String apiKey = "NUNW7MUCXTACICR6";
 
-        // Create an instance of IEXCloudApi
-        IEXCloudApi api = new IEXCloudApi();
+        // Replace "AAPL" with the stock symbol you want to test
+        String stockSymbol = "AAPL";
+
+        // Create an instance of IEXCloudApi (assuming it has been modified for Alpha Vantage)
+        AlphaVantageApi api = new AlphaVantageApi(apiKey);
 
         // Grab stock information as a JSON string
         String stockInfoJson = api.getCurrentStockInfo(stockSymbol);

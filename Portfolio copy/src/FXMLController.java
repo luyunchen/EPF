@@ -43,7 +43,7 @@ import javafx.scene.shape.QuadCurve;
  * @author sujansiva
  */
 public class FXMLController implements Initializable {
-   IEXCloudApi api = new IEXCloudApi();
+   AlphaVantageApi api = new AlphaVantageApi();
     static String userRiskTolerance  ; //Each time the updateInvestorProfile is clicked, this should update to it.
     static double totalEquity;
     static List<List<Double>> weightsList = new ArrayList<>(50); //These are some random weights of the stocks for each portfolio. There's gonna be 20 portfolio, meaning 20 data points. 

@@ -6,43 +6,39 @@
 
 /**
  *
- * @author Marce
+ * @author Eliyahu Cano
  */
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class StockDataParser {
+
     public static StockQuote parseStockQuote(String json) {
-    try {
+        try {
+            JSONObject jsonObject = new JSONObject(json);
 
-        JSONObject jsonObject = new JSONObject(json);
+            StockQuote stockQuote = new StockQuote();
 
-        StockQuote stockQuote = new StockQuote();
+            // Parse information from Overview
+            stockQuote.setSymbol(getStringFromJsonObject(jsonObject, "Symbol"));
+            stockQuote.setFullName(getStringFromJsonObject(jsonObject, "Name"));
+            stockQuote.setBeta(getDoubleFromJsonObject(jsonObject, "Beta"));
 
-        // Parse information from stats
-        stockQuote.setSymbol(getStringFromJsonObject(jsonObject, "symbol"));
-        stockQuote.setLatestPrice(getDoubleFromJsonObject(jsonObject, "latestPrice"));
-        stockQuote.setFullName(getStringFromJsonObject(jsonObject, "companyName"));
+            // Parse information from Global Quote
+            JSONObject globalQuote = jsonObject.optJSONObject("Global Quote");
+            if (globalQuote != null) {
+                stockQuote.setLatestPrice(getDoubleFromJsonObject(globalQuote, "05. price"));
+            } else {
+                // Handle the case where Global Quote is not present or doesn't contain the required field
+                stockQuote.setLatestPrice(null);
+            }
 
-      
-        // Try extracting beta again
-        if (jsonObject.has("beta") && !jsonObject.isNull("beta")) {
-            //stockQuote.setBeta(getDoubleFromJsonObject(jsonObject,"beta"));
-            stockQuote.setBeta(jsonObject.getDouble("beta"));
-        } else {
-            System.out.println("Beta field not found in JSON response or is null.");
+            return stockQuote;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
         }
-
-      
-        
-
-        return stockQuote;
-    } catch (JSONException e) {
-        e.printStackTrace();
-        return null;
     }
-}
-
 
     private static String getStringFromJsonObject(JSONObject jsonObject, String key) {
         try {

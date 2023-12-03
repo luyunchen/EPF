@@ -70,6 +70,7 @@ public class StockQuote implements securityReturn{
     }
     
     
+    
     @Override
     public double calculateExpectedSecurityReturn(){
         return ((riskFreeRate+beta)*(expectedMarketReturn-riskFreeRate));
