@@ -13,7 +13,7 @@ public class FXMLControllerTest {
     @BeforeEach
     public void setUp() {
         controller = new FXMLController();
-        // Additional setup if needed
+    
     }
 
     @Test
@@ -38,7 +38,7 @@ public class FXMLControllerTest {
         // Assert the result
         assertNotNull(result);
         assertEquals(3, result.size());
-        // Add more specific assertions based on your logic
+    
     }
 
     @Test
@@ -66,7 +66,7 @@ public class FXMLControllerTest {
         // Assert the result
         assertNotNull(FXMLController.bestFitPortfolio);
         assertEquals(portfolioConservative, FXMLController.bestFitPortfolio);
-        // Add more specific assertions based on your logic
+   
     }
 
     @Test
@@ -88,7 +88,7 @@ public class FXMLControllerTest {
 
         // Assert the result
         assertNotNull(controller.Chart.getData());
-        // Add more specific assertions based on your logic
+    
     }
 
     @Test
@@ -98,14 +98,11 @@ public class FXMLControllerTest {
 
         FXMLController.BarSearch.setText("AAPL"); // Set a valid stock symbol
 
-        // Call the method to be tested
         controller.SymbolName(enterEvent);
 
-        // Assert the result
-        // Add assertions based on the expected behavior of the method
         assertNotNull(FXMLController.stocksSelected);
         assertEquals(1, FXMLController.stocksSelected.size());
         assertNotNull(FXMLController.stocksSelected.get(0));
-        // Add more specific assertions based on your logic
+       
     }
 }
