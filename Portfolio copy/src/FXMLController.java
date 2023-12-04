@@ -265,7 +265,7 @@ void generateGraphOnAction(ActionEvent event) {
     Chart.getData().clear();
 
     // Create a single series for all data points
-    XYChart.Series<String, Double> series = new XYChart.Series<>();
+    XYChart.Series<Double, Double> series = new XYChart.Series<>();
 
     // Add data to the series
     for (int i = 0; i < listOfPortfolios.size(); i++) {
@@ -276,7 +276,7 @@ void generateGraphOnAction(ActionEvent event) {
         System.out.println("Adding data to chart - Risk: " + risk + ", Returns: " + returns);
 
         // Add data point to the series
-        XYChart.Data<String, Double> dataPoint = new XYChart.Data<>(String.valueOf(risk), returns);
+        XYChart.Data<Double, Double> dataPoint = new XYChart.Data<>(risk, returns);
 
         series.getData().add(dataPoint);
         
@@ -286,6 +286,7 @@ void generateGraphOnAction(ActionEvent event) {
     // Add the series to the chart
     Chart.getData().add(series);
 }
+
 
     
 
@@ -411,10 +412,10 @@ void generateGraphOnAction(ActionEvent event) {
     private Button generateGraph;
     
     @FXML
-    private LineChart<String,Double>Chart;
+    private LineChart<Double,Double>Chart;
     
     @FXML
-    private CategoryAxis Xaxis;
+    private NumberAxis Xaxis;
     
     @FXML
     private NumberAxis Yaxis;
@@ -460,6 +461,8 @@ void generateGraphOnAction(ActionEvent event) {
 
     
     
+
+
 
 
     
