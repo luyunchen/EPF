@@ -7,7 +7,6 @@
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,17 +17,22 @@ import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.ScatterChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
+import javafx.scene.input.InputMethodEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.QuadCurve;
@@ -42,9 +46,9 @@ public class FXMLController implements Initializable {
    AlphaVantageApi api = new AlphaVantageApi();
     static String userRiskTolerance  ; //Each time the updateInvestorProfile is clicked, this should update to it.
     static double totalEquity;
-    static List<List<Double>> weightsList = new ArrayList<>(100); //These are some random weights of the stocks for each portfolio. There's gonna be 20 portfolio, meaning 20 data points. 
+    static List<List<Double>> weightsList = new ArrayList<>(50); //These are some random weights of the stocks for each portfolio. There's gonna be 20 portfolio, meaning 20 data points. 
     static List<StockQuote> stocksSelected = new ArrayList<>(3); //Empty list of StockQuotes. When user changes the first security, call setOnAction -> stocksSelected.set(0,*stockquote object*) and so on
-    static List<Portfolio> listOfPortfolios = new ArrayList<>(100);
+    static List<Portfolio> listOfPortfolios = new ArrayList<>(50);
     static Portfolio bestFitPortfolio;
     
     static List<Integer> calculateStockQuantities(){
@@ -226,7 +230,7 @@ void RST(ActionEvent event){
 
     public static void createPortfolios() {
        // Clear everything that's in the list of portfolio options as we're creating new options.
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 20; i++) {
             listOfPortfolios.add(new Portfolio(new ArrayList<>(stocksSelected), weightsList.get(i)));
         }
     }
@@ -265,7 +269,7 @@ void generateGraphOnAction(ActionEvent event) {
     Chart.getData().clear();
 
     // Create a single series for all data points
-    XYChart.Series<String, Double> series = new XYChart.Series<>();
+    XYChart.Series<Double, Double> series = new XYChart.Series<>();
 
     // Add data to the series
     for (int i = 0; i < listOfPortfolios.size(); i++) {
@@ -276,7 +280,7 @@ void generateGraphOnAction(ActionEvent event) {
         System.out.println("Adding data to chart - Risk: " + risk + ", Returns: " + returns);
 
         // Add data point to the series
-        XYChart.Data<String, Double> dataPoint = new XYChart.Data<>(String.valueOf(risk), returns);
+        XYChart.Data<Double, Double> dataPoint = new XYChart.Data<>(risk, returns);
 
         series.getData().add(dataPoint);
         
@@ -411,10 +415,10 @@ void generateGraphOnAction(ActionEvent event) {
     private Button generateGraph;
     
     @FXML
-    private LineChart<String,Double>Chart;
+    private LineChart<Double,Double>Chart;
     
     @FXML
-    private CategoryAxis Xaxis;
+    private NumberAxis Xaxis;
     
     @FXML
     private NumberAxis Yaxis;
@@ -425,25 +429,55 @@ void generateGraphOnAction(ActionEvent event) {
     public void initialize(URL url, ResourceBundle rb) {
          
 
-        Random random = new Random();
-
-        for (int i = 0; i < 100; i++) {
-            List<Double> weights = new ArrayList<>();
-
-            // Generate random values between -10 and 10
-            for (int j = 0; j < 3; j++) {
-                double randomValue = -10 + (20 * random.nextDouble());
-                weights.add(randomValue);
-            }
-
-            // Normalize the list to make sure it adds up to 1.0
-            double sum = weights.stream().mapToDouble(Double::doubleValue).sum();
-            for (int j = 0; j < 3; j++) {
-                weights.set(j, weights.get(j) / sum);
-            }
-
-            weightsList.add(weights);
-        }
+        weightsList.add(List.of(0.25, 0.3, 0.35)); //Add random diversifications to the List of weights
+        weightsList.add(List.of(0.1, 0.5, 0.4));
+        weightsList.add(List.of(0.2, 0.1, 0.6));
+        weightsList.add(List.of(0.3, 0.2, 0.4));
+        weightsList.add(List.of(0.15, 0.4, 0.45));
+        weightsList.add(List.of(0.4, 0.2, 0.35));
+        weightsList.add(List.of(0.3, 0.4, 0.2));
+        weightsList.add(List.of(0.2, 0.3, 0.4));
+        weightsList.add(List.of(0.1, 0.3, 0.5));
+        weightsList.add(List.of(0.35, 0.25, 0.4));
+        weightsList.add(List.of(0.2, 0.25, 0.55));
+        weightsList.add(List.of(0.3, 0.15, 0.55));
+        weightsList.add(List.of(0.25, 0.35, 0.4));
+        weightsList.add(List.of(0.15, 0.3, 0.55));
+        weightsList.add(List.of(0.4, 0.1, 0.5));
+        weightsList.add(List.of(0.25, 0.35, 0.4));
+        weightsList.add(List.of(0.3, 0.1, 0.6));
+        weightsList.add(List.of(0.1, 0.4, 0.5));
+        weightsList.add(List.of(0.2, 0.5, 0.3));
+        weightsList.add(List.of(0.3, 0.3, 0.35));
+        weightsList.add(List.of(0.12, 0.65, 0.23));
+        weightsList.add(List.of(0.28, 0.08, 0.64));
+        weightsList.add(List.of(0.42, 0.17, 0.41));
+        weightsList.add(List.of(0.33, 0.45, 0.22));
+        weightsList.add(List.of(0.18, 0.39, 0.43));
+        weightsList.add(List.of(0.49, 0.12, 0.39));
+        weightsList.add(List.of(0.31, 0.47, 0.22));
+        weightsList.add(List.of(0.26, 0.36, 0.38));
+        weightsList.add(List.of(0.13, 0.34, 0.53));
+        weightsList.add(List.of(0.38, 0.21, 0.41));
+        weightsList.add(List.of(0.23, 0.28, 0.49));
+        weightsList.add(List.of(0.34, 0.19, 0.47));
+        weightsList.add(List.of(0.27, 0.38, 0.35));
+        weightsList.add(List.of(0.16, 0.31, 0.53));
+        weightsList.add(List.of(0.46, 0.08, 0.46));
+        weightsList.add(List.of(0.28, 0.41, 0.31));
+        weightsList.add(List.of(0.36, 0.09, 0.55));
+        weightsList.add(List.of(0.14, 0.45, 0.41));
+        weightsList.add(List.of(0.25, 0.58, 0.17));
+        weightsList.add(List.of(0.32, 0.28, 0.40));
+        weightsList.add(List.of(0.21, 0.14, 0.65));
+        weightsList.add(List.of(0.37, 0.26, 0.37));
+        weightsList.add(List.of(0.29, 0.52, 0.19));
+        weightsList.add(List.of(0.43, 0.10, 0.47));
+        weightsList.add(List.of(0.22, 0.43, 0.35));
+        weightsList.add(List.of(0.18, 0.61, 0.21));
+        weightsList.add(List.of(0.35, 0.33, 0.32));
+        weightsList.add(List.of(0.24, 0.17, 0.59));
+        weightsList.add(List.of(0.30, 0.25, 0.45));
         
          // Add values to the ChoiceBox
 // Add values to the ChoiceBox
@@ -460,6 +494,13 @@ void generateGraphOnAction(ActionEvent event) {
 
     
     
+
+
+    
+    
+
+
+
 
 
     
