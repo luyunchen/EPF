@@ -16,7 +16,7 @@ public class StockQuote implements securityReturn{
     private String fullName; 
     private Double beta;     
     
-    private static Double expectedMarketReturn = (1.0927);
+    private static Double expectedMarketReturn = (0.0927);
     private static Double riskFreeRate = (0.0407);
     
     
