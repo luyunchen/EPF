@@ -230,7 +230,7 @@ void RST(ActionEvent event){
 
     public static void createPortfolios() {
        // Clear everything that's in the list of portfolio options as we're creating new options.
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 49; i++) {
             listOfPortfolios.add(new Portfolio(new ArrayList<>(stocksSelected), weightsList.get(i)));
         }
     }
