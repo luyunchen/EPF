@@ -64,9 +64,9 @@ public class Portfolio { //Multiple portfolio objects will be used. Each portfol
     public double calculatePortfolioReturn() { //Obtaining total return by adding weighted returns
         double portfolioReturn = 0.0;
         for (int i = 0; i < stocks.size(); i++) {
-            portfolioReturn += Math.abs(weights.get(i) * stocks.get(i).calculateExpectedSecurityReturn());
+            portfolioReturn += weights.get(i) * stocks.get(i).calculateExpectedSecurityReturn();
         }
-        return (portfolioReturn*100);
+        return ((portfolioReturn-1.00)*100);
     }
 
     public double calculatePortfolioRisk() {
@@ -106,3 +106,4 @@ public class Portfolio { //Multiple portfolio objects will be used. Each portfol
     
     
 }
+
