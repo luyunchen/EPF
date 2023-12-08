@@ -2,7 +2,7 @@
 
 ## Table of Contents:
 
-1. [Introduction[(#description-of-the-project:-efficient-portfolio-frontier)
+1. [Introduction[(#description-of-the-project-efficient-portfolio-frontier)
    1. [Project Overview]
    2. [Purpose of Investment Portfolio Assistant (IPA)]
 
