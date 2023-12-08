@@ -3,24 +3,24 @@
 ## Table of Contents:
 
 1. [Introduction](#description-of-the-project)
-   1. [Purpose of Investment Portfolio Assistant (IPA)](#project-description-investment-portfolio-assistant)
+   1. [Purpose of Investment Portfolio Assistant (IPA)](#project-description-investment-portfolio-assistant-ipa)
 
 2. [Key Features](#key-features)
-   1. [Simplified Data Extraction](#simplified-data-extraction)
-   2. [User-Friendly Interface](#user-friendly-interface)
-   3. [Personalized Investment Suggestions](#personalize-investment-suggestion)
-   4. [Portfolio Generation](#portfolio-generation)
+   1. [Simplified Data Extraction](#21-simplified-data-extraction)
+   2. [User-Friendly Interface](#22-user-friendly-interface)
+   3. [Personalized Investment Suggestions](#23-personalize-investment-suggestion)
+   4. [Portfolio Generation](#24-portfolio-generation)
 
 3. [How to Use Investment Portfolio Assistant (IPA)](#how-to-use-investment-portfolio-assistant-ipa)
-   1. [Stock Selection](#stock-selection)
-   2. [Input Preferences](#input-preferences)
-   3. [Generate Portfolio](#generate-portfolio)
-   4. [Visualize Options](#visualize-options)
+   1. [Stock Selection](#1-stock-selection)
+   2. [Input Preferences](#2-input-preferences)
+   3. [Generate Portfolio](#3-generate-portfolio)
+   4. [Visualize Options](#4-visualize-options)
 
 4. [Troubleshooting](#troubleshooting)
-   1. [Technical Issues](#technical-issues)
-   2. [Data Accuracy](#data-accuracy)
-   3. [Support and Feedback](#support-and-feedback)
+   1. [Technical Issues](#1-technical-issues)
+   2. [Data Accuracy](#2-data-accuracy)
+   3. [Support and Feedback](#3-support-and-feedback)
 
 5. [References](#references)
 
