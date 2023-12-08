@@ -1,51 +1,3 @@
-# EPF Investment Assistant User Guide
-
-## Table of Contents:
-
-1. [Introduction](#introduction)
-   1. [Project Overview](#project-overview)
-   2. [Purpose of Investment Portfolio Assistant (IPA)](#purpose-of-investment-portfolio-assistant-ipa)
-
-2. [Key Features](#key-features)
-   1. [Simplified Data Extraction](#simplified-data-extraction)
-   2. [User-Friendly Interface](#user-friendly-interface)
-   3. [Personalized Investment Suggestions](#personalized-investment-suggestions)
-   4. [Portfolio Generation](#portfolio-generation)
-
-3. [How to Use Investment Portfolio Assistant (IPA)](#how-to-use-investment-portfolio-assistant-ipa)
-   1. [Stock Selection](#stock-selection)
-   2. [Input Preferences](#input-preferences)
-   3. [Generate Portfolio](#generate-portfolio)
-   4. [Visualize Options](#visualize-options)
-
-4. [Troubleshooting](#troubleshooting)
-   1. [Technical Issues](#technical-issues)
-   2. [Data Accuracy](#data-accuracy)
-   3. [Support and Feedback](#support-and-feedback)
-
-5. [References](#references)
-
----
-
-## Description of the project: Efficient Portfolio Frontier
-
-### Project Description: Investment Portfolio Assistant (IPA)
-The Investment Portfolio Assistant (IPA) is a user-friendly application designed for beginner investors who may find the financial market intimidating. The goal of IPA is to simplify the investment process, provide relevant financial market information, and offer personalized investment suggestions based on user preferences.
-
-### Key Features:
-#### 2.1 Simplified Data Extraction
-IPA extracts relevant financial market data from reputable sources, eliminating the need for users to navigate through complex financial websites.
-
-#### 2.2 User-Friendly Interface
-The application is designed with a user-friendly interface to cater to individuals with varying levels of financial literacy. It aims to bridge the gap for the 15% of Canadians who consider themselves financially illiterate.
-
-#### 2.3 Personalized Investment Suggestions
-Users can select stocks of interest and input their asset and risk tolerance. IPA generates personalized investment suggestions, taking into account the user's preferences and financial goals.
-
-#### 2.4 Portfolio Generation
-The application includes a feature where users can generate the best-fit portfolio based on their equity and risk tolerance. The generated portfolio options are visually presented, allowing users to see individual risk and return metrics for each option.
-
-## How to use:
 # Investment Portfolio Assistant (IPA) User Guide
 
 ## Table of Contents:
@@ -93,17 +45,13 @@ Users can select stocks of interest and input their asset and risk tolerance. IP
 #### 2.4 Portfolio Generation
 The application includes a feature where users can generate the best-fit portfolio based on their equity and risk tolerance. The generated portfolio options are visually presented, allowing users to see individual risk and return metrics for each option.
 
-### How to use:
+## How to use:
+![Screenshot of IPA Application](HowToUse.png)
 
-#### 3.1 Stock Selection: 
-Choose the stocks you are interested in by searching or selecting from a predefined list.
-#### 3.2 Input Preferences:
-Specify your asset and risk tolerance preferences. This information is crucial for IPA to tailor investment suggestions to your needs.
-#### 3.3 Generate Portfolio:
-Click on the "Generate Portfolio" button to receive personalized investment portfolio options based on your preferences.
-#### 3.4 Visualize Options:
-View a graph that illustrates individual risk and return metrics for each portfolio option. This visualization helps you make informed decisions about diversification.
-
+3.1 **Stock Selection:** Choose the stocks you are interested in by searching or selecting from a predefined list.
+3.2 **Input Preferences:** Specify your asset and risk tolerance preferences. This information is crucial for IPA to tailor investment suggestions to your needs.
+3.3 **Generate Portfolio:** Click on the "Generate Portfolio" button to receive personalized investment portfolio options based on your preferences.
+3.4 **Visualize Options:** View a graph that illustrates individual risk and return metrics for each portfolio option. This visualization helps you make informed decisions about diversification.
 
 ## Troubleshooting:
 
