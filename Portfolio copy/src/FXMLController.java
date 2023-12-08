@@ -310,7 +310,7 @@ void generateGraphOnAction(ActionEvent event) {
     }
       @FXML
     void ChangeAsset(KeyEvent event){
-    
+        
         totalEquity = Double.parseDouble(Asset.getText());
         
         
