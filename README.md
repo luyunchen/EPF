@@ -2,7 +2,7 @@
 
 ## Table of Contents:
 
-1. [Introduction](#introduction)
+1. [Introduction[(#description-of-the-project:-efficient-portfolio-frontier)
    1. [Project Overview]
    2. [Purpose of Investment Portfolio Assistant (IPA)]
 
@@ -12,7 +12,7 @@
    3. [Personalized Investment Suggestions]
    4. [Portfolio Generation]
 
-3. [How to Use Investment Portfolio Assistant (IPA)] (#how-to-use-investment-portfolio-assistant-ipa)
+3. [How to Use Investment Portfolio Assistant (IPA)](#how-to-use-investment-portfolio-assistant-ipa)
    1. [Stock Selection]
    2. [Input Preferences]
    3. [Generate Portfolio]
@@ -27,28 +27,41 @@
 
 ---
 
-### Introduction
-### 1.1 Project Overview
-### 1.2 Purpose of Investment Portfolio Assistant (IPA)
+### Description of the project: Efficient Portfolio Frontier
 
-### Key Features
-### 2.1 Simplified Data Extraction
-### 2.2 User-Friendly Interface
-### 2.3 Personalized Investment Suggestions 
-### 2.4 Portfolio Generation 
+#### Project Description: Investment Portfolio Assistant (IPA)
+The Investment Portfolio Assistant (IPA) is a user-friendly application designed for beginner investors who may find the financial market intimidating. The goal of IPA is to simplify the investment process, provide relevant financial market information, and offer personalized investment suggestions based on user preferences.
 
-### How to Use Investment Portfolio Assistant (IPA)
+### Key Features:
+#### 2.1 Simplified Data Extraction
+IPA extracts relevant financial market data from reputable sources, eliminating the need for users to navigate through complex financial websites.
+
+#### 2.2 User-Friendly Interface
+The application is designed with a user-friendly interface to cater to individuals with varying levels of financial literacy. It aims to bridge the gap for the 15% of Canadians who consider themselves financially illiterate.
+
+#### 2.3 Personalized Investment Suggestions
+Users can select stocks of interest and input their asset and risk tolerance. IPA generates personalized investment suggestions, taking into account the user's preferences and financial goals.
+
+#### 2.4 Portfolio Generation
+The application includes a feature where users can generate the best-fit portfolio based on their equity and risk tolerance. The generated portfolio options are visually presented, allowing users to see individual risk and return metrics for each option.
+
+### How to use:
+
+#### How to Use Investment Portfolio Assistant (IPA)
 ![Screenshot of Running Application](HowToUse.png)
 
-### 3.1 Stock Selection 
-### 3.2 Input Preferences 
-### 3.3 Generate Portfolio 
-### 3.4 Visualize Options 
+1. **Stock Selection:** Choose the stocks you are interested in by searching or selecting from a predefined list.
+2. **Input Preferences:** Specify your asset and risk tolerance preferences. This information is crucial for IPA to tailor investment suggestions to your needs.
+3. **Generate Portfolio:** Click on the "Generate Portfolio" button to receive personalized investment portfolio options based on your preferences.
+4. **Visualize Options:** View a graph that illustrates individual risk and return metrics for each portfolio option. This visualization helps you make informed decisions about diversification.
+
 
 ### Troubleshooting 
-### 4.1 Technical Issues
-### 4.2 Data Accuracy 
-### 4.3 Support and Feedback 
+
+1. **Technical Issues:** If you encounter technical difficulties, ensure that you have a stable internet connection. Refresh the page or restart the application.
+2. **Data Accuracy:** Double-check the accuracy of the input information, such as stock selections and preferences, to ensure the generated portfolio aligns with your expectations.
+3. **Support and Feedback:** For further assistance, reach out to our support team through the provided contact channels. We also welcome feedback to improve the user experience.
+
 
 ### References 
 1. [Capital Asset Pricing Model (CAPM)](https://www.investopedia.com/terms/c/capm.asp)
