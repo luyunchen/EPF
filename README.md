@@ -2,7 +2,7 @@
 
 ## Table of Contents:
 
-1. [Introduction[(#description-of-the-project-efficient-portfolio-frontier)
+1. [Introduction](#description-of-the-project)
    1. [Project Overview]
    2. [Purpose of Investment Portfolio Assistant (IPA)]
 
@@ -27,7 +27,7 @@
 
 ---
 
-### Description of the project: Efficient Portfolio Frontier
+### Description of the project
 
 #### Project Description: Investment Portfolio Assistant (IPA)
 The Investment Portfolio Assistant (IPA) is a user-friendly application designed for beginner investors who may find the financial market intimidating. The goal of IPA is to simplify the investment process, provide relevant financial market information, and offer personalized investment suggestions based on user preferences.
