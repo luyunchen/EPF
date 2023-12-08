@@ -93,38 +93,26 @@ Users can select stocks of interest and input their asset and risk tolerance. IP
 #### 2.4 Portfolio Generation
 The application includes a feature where users can generate the best-fit portfolio based on their equity and risk tolerance. The generated portfolio options are visually presented, allowing users to see individual risk and return metrics for each option.
 
-## How to use:
+### How to use:
 
-1. **Stock Selection:** Choose the stocks you are interested in by searching or selecting from a predefined list.
-2. **Input Preferences:** Specify your asset and risk tolerance preferences. This information is crucial for IPA to tailor investment suggestions to your needs.
-3. **Generate Portfolio:** Click on the "Generate Portfolio" button to receive personalized investment portfolio options based on your preferences.
-4. **Visualize Options:** View a graph that illustrates individual risk and return metrics for each portfolio option. This visualization helps you make informed decisions about diversification.
+#### 3.1 Stock Selection: 
+Choose the stocks you are interested in by searching or selecting from a predefined list.
+#### 3.2 Input Preferences:
+Specify your asset and risk tolerance preferences. This information is crucial for IPA to tailor investment suggestions to your needs.
+#### 3.3 Generate Portfolio:
+Click on the "Generate Portfolio" button to receive personalized investment portfolio options based on your preferences.
+#### 3.4 Visualize Options:
+View a graph that illustrates individual risk and return metrics for each portfolio option. This visualization helps you make informed decisions about diversification.
 
-## Troubleshooting:
-
-1. **Technical Issues:** If you encounter technical difficulties, ensure that you have a stable internet connection. Refresh the page or restart the application.
-2. **Data Accuracy:** Double-check the accuracy of the input information, such as stock selections and preferences, to ensure the generated portfolio aligns with your expectations.
-3. **Support and Feedback:** For further assistance, reach out to our support team through the provided contact channels. We also welcome feedback to improve the user experience.
-
-## References
-
-1. [Capital Asset Pricing Model (CAPM)](https://www.investopedia.com/terms/c/capm.asp)
-2. [Efficient Frontier](https://www.investopedia.com/terms/e/efficientfrontier.asp)
-3. [Understanding Risk Tolerance](https://www.investopedia.com/articles/pf/07/risk_tolerance.asp)
-
-1. **Stock Selection:** Choose the stocks you are interested in by searching or selecting from a predefined list.
-2. **Input Preferences:** Specify your asset and risk tolerance preferences. This information is crucial for IPA to tailor investment suggestions to your needs.
-3. **Generate Portfolio:** Click on the "Generate Portfolio" button to receive personalized investment portfolio options based on your preferences.
-4. **Visualize Options:** View a graph that illustrates individual risk and return metrics for each portfolio option. This visualization helps you make informed decisions about diversification.
 
 ## Troubleshooting:
 
-1. **Technical Issues:** If you encounter technical difficulties, ensure that you have a stable internet connection. Refresh the page or restart the application.
-2. **Data Accuracy:** Double-check the accuracy of the input information, such as stock selections and preferences, to ensure the generated portfolio aligns with your expectations.
-3. **Support and Feedback:** For further assistance, reach out to our support team through the provided contact channels. We also welcome feedback to improve the user experience.
+4.1 **Technical Issues:** If you encounter technical difficulties, ensure that you have a stable internet connection. Refresh the page or restart the application.
+4.2 **Data Accuracy:** Double-check the accuracy of the input information, such as stock selections and preferences, to ensure the generated portfolio aligns with your expectations.
+4.3 **Support and Feedback:** For further assistance, reach out to our support team through the provided contact channels. We also welcome feedback to improve the user experience.
 
 ## References
 
-1. [Capital Asset Pricing Model (CAPM)](https://www.investopedia.com/terms/c/capm.asp)
-2. [Efficient Frontier](https://www.investopedia.com/terms/e/efficientfrontier.asp)
-3. [Understanding Risk Tolerance](https://www.investopedia.com/articles/pf/07/risk_tolerance.asp)
+5.1 [Capital Asset Pricing Model (CAPM)](https://www.investopedia.com/terms/c/capm.asp)
+5.2 [Efficient Frontier](https://www.investopedia.com/terms/e/efficientfrontier.asp)
+5.3 [Understanding Risk Tolerance](https://www.investopedia.com/articles/pf/07/risk_tolerance.asp)
